@@ -23,9 +23,7 @@ const ConstructionServices = ({ isHomePage }) => {
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const res = await axios.get(
-          "http://localhost:5000/api/services"
-        );
+        const res = await axios.get("http://localhost:5000/api/services");
         setServices(res.data);
       } catch (err) {
         console.error("Error fetching services:", err);

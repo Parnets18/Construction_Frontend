@@ -17,18 +17,13 @@ const AdminContactCard = () => {
   const [showForm, setShowForm] = useState(false);
   const [errors, setErrors] = useState({});
 
-  const API_URL = "http://localhost:5000/api/contacts"; // backend endpoint
+  const API_URL = "http://localhost:5000/api/contactcards"; // backend endpoint
 
   // ------------------ FETCH DATA ------------------
   const fetchData = async () => {
     try {
       const res = await axios.get(API_URL);
-      // Handle the contacts API response structure
-      if (res.data.contacts) {
-        setData(res.data.contacts);
-      } else {
-        setData(res.data);
-      }
+      setData(res.data);
     } catch (err) {
       console.error("Error fetching data:", err);
     }

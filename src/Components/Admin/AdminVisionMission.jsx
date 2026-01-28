@@ -9,8 +9,7 @@ const AdminVisionMission = () => {
   const [showForm, setShowForm] = useState(false);
   const fileInputRef = useRef(null);
 
-  const API_URL =
-    "http://localhost:5000/api/vision-mission";
+  const API_URL = "http://localhost:5000/api/vision-Mission";
 
   // Fetch data
   const fetchData = async () => {

@@ -10,7 +10,7 @@ const MissionVisionValues = () => {
     AOS.init({ duration: 1000, once: true });
 
     axios
-      .get("http://localhost:5000/api/vision-mission")
+      .get("http://localhost:5000/api/vision-Mission")
       .then((res) => {
         const updatedCards = res.data.map((item) => ({
           title: item.title,

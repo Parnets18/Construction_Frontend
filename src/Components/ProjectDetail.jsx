@@ -30,7 +30,7 @@ const ContactSection = () => {
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/contact",
+        "http://localhost:5000/api/contacts",
         formData,
         {
           headers: { "Content-Type": "application/json" },

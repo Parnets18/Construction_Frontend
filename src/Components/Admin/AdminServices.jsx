@@ -22,8 +22,7 @@ const AdminServices = () => {
   const imageInputRef = useRef(null);
 
   const API_URL = "http://localhost:5000/api/services";
-  const UPLOADS_URL =
-    "http://localhost:5000/uploads/services/";
+  const UPLOADS_URL = "http://localhost:5000/uploads/services/";
 
   // Fetch services
   const fetchData = async () => {
