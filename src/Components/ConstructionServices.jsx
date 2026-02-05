@@ -23,7 +23,7 @@ const ConstructionServices = ({ isHomePage }) => {
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/services");
+        const res = await axios.get("https://construction-backend-vm2j.onrender.com/api/services");
         setServices(res.data);
       } catch (err) {
         console.error("Error fetching services:", err);
@@ -63,21 +63,21 @@ const ConstructionServices = ({ isHomePage }) => {
             {displayedServices.map((service, index) => (
               <div
                 key={service._id}
-                className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 cursor-pointer"
+                className="group bg-gradient-to-br from-white to-blue-50 rounded-3xl shadow-xl overflow-hidden hover:shadow-2xl transition-all duration-500 hover:-translate-y-3 border border-blue-100"
                 data-aos="fade-up"
                 data-aos-delay={index * 100}
-                onClick={() => navigate(`/services/${service._id}`)}
               >
                 <div className="relative h-64 overflow-hidden">
                   <img
-                    src={`http://localhost:5000/uploads/services/${service.images[0]}`}
+                    src={`https://construction-backend-vm2j.onrender.com/uploads/services/${service.images[0]}`}
                     alt={service.title}
-                    className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                   />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                 </div>
                 
                 <div className="p-6">
-                  <h3 className="text-xl font-bold text-gray-800 mb-3">{service.title}</h3>
+                  <h3 className="text-xl font-bold text-blue-800 mb-3 group-hover:text-blue-600 transition-colors">{service.title}</h3>
                   <p className="text-gray-600 mb-4 line-clamp-3">{service.paragraph}</p>
                   
                   {service.features && service.features.length > 0 && (
@@ -87,13 +87,13 @@ const ConstructionServices = ({ isHomePage }) => {
                         {service.features.slice(0, 2).map((feature, idx) => (
                           <span
                             key={idx}
-                            className="bg-gray-100 text-gray-600 px-2 py-1 rounded text-xs"
+                            className="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-xs font-medium"
                           >
                             {feature}
                           </span>
                         ))}
                         {service.features.length > 2 && (
-                          <span className="bg-gray-100 text-gray-600 px-2 py-1 rounded text-xs">
+                          <span className="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-xs font-medium">
                             +{service.features.length - 2} more
                           </span>
                         )}
@@ -101,8 +101,13 @@ const ConstructionServices = ({ isHomePage }) => {
                     </div>
                   )}
                   
-                  <button className="w-full bg-gradient-to-r from-blue-500 to-red-500 text-white py-2 px-4 rounded-lg font-semibold hover:from-blue-600 hover:to-red-600 transition-all duration-300">
-                    Learn More
+                  <button 
+                    onClick={() => {
+                      navigate("/contactus");
+                      window.scrollTo(0, 0);
+                    }}
+                    className="w-full bg-blue-600 text-white py-3 px-4 rounded-xl font-semibold hover:bg-blue-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+                    Book Now
                   </button>
                 </div>
               </div>

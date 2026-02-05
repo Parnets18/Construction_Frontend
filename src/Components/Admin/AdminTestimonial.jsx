@@ -22,7 +22,7 @@ const AdminTestimonial = () => {
   const fetchTestimonials = async () => {
     try {
       const res = await axios.get(
-        "http://localhost:5000/api/testimonials"
+        "https://construction-backend-vm2j.onrender.com/api/testimonials"
       );
       setData(res.data);
     } catch (err) {
@@ -54,12 +54,12 @@ const AdminTestimonial = () => {
 
       if (editingId) {
         await axios.put(
-          `http://localhost:5000/api/testimonials/${editingId}`,
+          `https://construction-backend-vm2j.onrender.com/api/testimonials/${editingId}`,
           formData
         );
       } else {
         await axios.post(
-          "http://localhost:5000/api/testimonials",
+          "https://construction-backend-vm2j.onrender.com/api/testimonials",
           formData
         );
       }
@@ -85,7 +85,7 @@ const AdminTestimonial = () => {
   const handleDelete = async (id) => {
     try {
       await axios.delete(
-        `http://localhost:5000/api/testimonials/${id}`
+        `https://construction-backend-vm2j.onrender.com/api/testimonials/${id}`
       );
       fetchTestimonials();
     } catch (err) {
@@ -110,17 +110,17 @@ const AdminTestimonial = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
-      <div className="max-w-6xl mx-auto">
+    <div className="h-full flex flex-col bg-white">
+      <div className="max-w-6xl mx-auto flex-1 flex flex-col w-full">
         {/* Header */}
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-bold text-orange-400">
+          <h1 className="text-3xl font-bold text-blue-600">
             Admin Panel – Testimonials
           </h1>
           {!showForm && (
             <button
               onClick={() => setShowForm(true)}
-              className="flex items-center px-5 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-red-600 text-white font-semibold hover:scale-105 transition-transform shadow-lg shadow-blue-500/20">
+              className="flex items-center px-5 py-3 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-700 transition-colors shadow-lg">
               <Plus className="mr-2" /> Add Testimonial
             </button>
           )}
@@ -210,7 +210,7 @@ const AdminTestimonial = () => {
             <div className="flex space-x-3">
               <button
                 onClick={handleSave}
-                className="flex items-center px-5 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-red-600 text-white font-semibold hover:scale-105 transition-transform shadow-lg shadow-blue-500/20">
+                className="flex items-center px-5 py-3 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-700 transition-colors shadow-lg">
                 <Save className="mr-2" />
                 {editingId ? "Update" : "Save"}
               </button>
@@ -243,7 +243,7 @@ const AdminTestimonial = () => {
                     <td className="p-3">
                       {item.profilePic && (
                         <img
-                          src={`http://localhost:5000/uploads/testimonials/${item.profilePic}`}
+                          src={`https://construction-backend-vm2j.onrender.com/uploads/testimonials/${item.profilePic}`}
                           alt={item.name}
                           className="w-12 h-12 rounded-full object-cover"
                         />

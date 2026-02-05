@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { FaTrash, FaEdit } from "react-icons/fa";
+import { Plus, Save, X } from "lucide-react";
 
 const API = axios.create({
-  baseURL: "http://localhost:5000/api/videos",
+  baseURL: "https://construction-backend-vm2j.onrender.com/api/videos",
 });
 
-const VideoAdmin = () => {
+const BannerAdmin = () => {
   const [videos, setVideos] = useState([]);
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
-  const [mediaFiles, setMediaFiles] = useState([]); // Changed from videoFiles
+  const [mediaFiles, setMediaFiles] = useState([]);
   const [editingId, setEditingId] = useState(null);
+  const [showForm, setShowForm] = useState(false);
 
   const fetchVideos = async () => {
     try {
@@ -32,7 +34,7 @@ const VideoAdmin = () => {
     formData.append("title", title);
     formData.append("description", description);
     for (let i = 0; i < mediaFiles.length; i++) {
-      formData.append("media", mediaFiles[i]); // Changed from "videos" to "media"
+      formData.append("media", mediaFiles[i]);
     }
 
     try {
@@ -53,6 +55,7 @@ const VideoAdmin = () => {
       setTitle("");
       setDescription("");
       setMediaFiles([]);
+      setShowForm(false);
       fetchVideos();
     } catch (err) {
       console.error(err);
@@ -60,7 +63,7 @@ const VideoAdmin = () => {
   };
 
   const deleteVideo = async (id) => {
-    if (!window.confirm("Are you sure you want to delete this video?")) return;
+    if (!window.confirm("Are you sure you want to delete this banner?")) return;
     try {
       await API.delete(`/${id}`);
       fetchVideos();
@@ -74,120 +77,165 @@ const VideoAdmin = () => {
     setTitle(video.title);
     setDescription(video.description);
     setMediaFiles([]);
+    setShowForm(true);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
-    <div className="p-6 max-w-5xl mx-auto">
-      <h1 className="text-2xl font-bold mb-4">Media Admin Panel</h1>
+    <div className="h-full flex flex-col bg-white text-black">
+      <div className="flex-shrink-0 flex justify-between mb-6">
+        <h1 className="text-3xl font-bold text-blue-600">Admin Panal - Banner</h1>
+        {!showForm && (
+          <button
+            onClick={() => setShowForm(true)}
+            className="flex items-center px-5 py-3 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-700 transition-colors shadow-lg">
+            <Plus className="mr-2" /> Add Banner
+          </button>
+        )}
+      </div>
+      
+      <div className="flex-1 overflow-y-auto max-w-6xl mx-auto w-full">
+        {/* Form */}
+        {showForm && (
+          <div className="bg-white rounded-xl shadow-lg shadow-blue-500/20 p-6 space-y-4 border backdrop-blur-md mb-6">
+            <h2 className="text-xl font-semibold text-gray-800">
+              {editingId ? "Edit Banner" : "Add New Banner"}
+            </h2>
 
-      {/* Media Form */}
-      <form
-        onSubmit={handleSubmit}
-        className="mb-8 flex flex-col gap-4 border p-4 rounded bg-white shadow">
-        <h2 className="text-xl font-semibold">
-          {editingId ? "Edit Media" : "Add Media"}
-        </h2>
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div>
+                <label className="block mb-1 font-semibold">Title:</label>
+                <input
+                  type="text"
+                  placeholder="Title"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  required
+                  className="w-full p-3 border-2 border-blue-300 focus:border-blue-600 rounded-lg focus:outline-none focus:border-blue-500 shadow-sm"
+                />
+              </div>
 
-        <input
-          type="text"
-          placeholder="Title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          required
-          className="p-2 border rounded"
-        />
+              <div>
+                <label className="block mb-1 font-semibold">Description:</label>
+                <textarea
+                  placeholder="Description"
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
+                  required
+                  className="w-full p-3 border-2 border-blue-300 focus:border-blue-600 rounded-lg focus:outline-none focus:border-blue-500 shadow-sm"
+                  rows="3"
+                />
+              </div>
 
-        <textarea
-          placeholder="Description"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          required
-          className="p-2 border rounded"
-        />
+              <div>
+                <label className="block mb-1 font-semibold">Media Files:</label>
+                <input
+                  type="file"
+                  multiple
+                  accept="image/*,video/*"
+                  onChange={(e) => setMediaFiles(Array.from(e.target.files))}
+                  className="w-full p-2 border-2 border-blue-300 focus:border-blue-600 rounded-lg"
+                />
+              </div>
 
-        <input
-          type="file"
-          multiple
-          accept="image/*,video/*" // Accept both images and videos
-          onChange={(e) => setMediaFiles(Array.from(e.target.files))} // Convert to array
-          className="p-2"
-        />
+              {mediaFiles.length > 0 && (
+                <div className="text-sm text-gray-600">
+                  Selected files: {mediaFiles.length}
+                </div>
+              )}
 
-        {mediaFiles.length > 0 && (
-          <div className="text-sm text-gray-600">
-            Selected files: {mediaFiles.length}
+              {/* Save / Cancel */}
+              <div className="flex gap-3">
+                <button
+                  type="submit"
+                  className="flex items-center px-5 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                  <Save className="mr-2" /> {editingId ? "Update" : "Save"}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowForm(false);
+                    setEditingId(null);
+                    setTitle("");
+                    setDescription("");
+                    setMediaFiles([]);
+                  }}
+                  className="flex items-center px-5 py-3 bg-gray-200 rounded-lg hover:bg-gray-300">
+                  <X className="mr-2" /> Cancel
+                </button>
+              </div>
+            </form>
           </div>
         )}
 
-        <button type="submit" className="bg-blue-500 text-white p-2 rounded">
-          {editingId ? "Update Media" : "Add Media"}
-        </button>
-      </form>
+        {/* Media List */}
+        <div className="bg-white shadow-lg shadow-blue-500/20 rounded-xl overflow-hidden">
+          <div className="overflow-x-auto">
+            <table className="min-w-full">
+              <thead className="bg-blue-600 text-white">
+                <tr>
+                  <th className="px-4 py-3 text-left">Title</th>
+                  <th className="px-4 py-3 text-left">Description</th>
+                  <th className="px-4 py-3 text-left">Media Files</th>
+                  <th className="px-4 py-3 text-center">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {videos.map((video) => (
+                  <tr key={video._id} className="border-b hover:bg-gray-50">
+                    <td className="px-4 py-3 font-semibold">{video.title}</td>
+                    <td className="px-4 py-3">{video.description}</td>
+                    <td className="px-4 py-3">
+                      <div className="flex flex-wrap gap-2">
+                        {/* Display Videos */}
+                        {video.videos &&
+                          video.videos.map((v, i) => (
+                            <video
+                              key={`video-${i}`}
+                              src={`https://construction-backend-vm2j.onrender.com/${v}`}
+                              controls
+                              className="w-20 h-12 object-cover rounded border"
+                            />
+                          ))}
 
-      {/* Media List */}
-      <table className="w-full border-collapse bg-white shadow rounded overflow-hidden">
-        <thead>
-          <tr className="bg-gray-200">
-            <th className="border p-2">Title</th>
-            <th className="border p-2">Description</th>
-            <th className="border p-2">Media Files</th>
-            <th className="border p-2">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {videos.map((video) => (
-            <tr key={video._id} className="border-b">
-              <td className="border p-2">{video.title}</td>
-              <td className="border p-2">{video.description}</td>
-              <td className="border p-2">
-                <div className="flex flex-wrap gap-2">
-                  {/* Display Videos */}
-                  {video.videos &&
-                    video.videos.map((v, i) => (
-                      <video
-                        key={`video-${i}`}
-                        src={`http://localhost:5000/${v}`}
-                        controls
-                        className="w-32 h-20 object-cover"
-                      />
-                    ))}
+                        {/* Display Images */}
+                        {video.images &&
+                          video.images.map((img, i) => (
+                            <img
+                              key={`image-${i}`}
+                              src={`https://construction-backend-vm2j.onrender.com/${img}`}
+                              alt={`Media ${i + 1}`}
+                              className="w-20 h-12 object-cover rounded border"
+                            />
+                          ))}
 
-                  {/* Display Images */}
-                  {video.images &&
-                    video.images.map((img, i) => (
-                      <img
-                        key={`image-${i}`}
-                        src={`http://localhost:5000/${img}`}
-                        alt={`Media ${i + 1}`}
-                        className="w-32 h-20 object-cover"
-                      />
-                    ))}
-
-                  {(!video.videos || video.videos.length === 0) &&
-                    (!video.images || video.images.length === 0) && (
-                      <span className="text-gray-500">No media files</span>
-                    )}
-                </div>
-              </td>
-              <td className="border p-2 flex gap-2">
-                <button
-                  onClick={() => editVideo(video)}
-                  className="text-blue-500 hover:text-blue-700">
-                  <FaEdit />
-                </button>
-                <button
-                  onClick={() => deleteVideo(video._id)}
-                  className="text-orange-600 hover:text-orange-400">
-                  <FaTrash />
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+                        {(!video.videos || video.videos.length === 0) &&
+                          (!video.images || video.images.length === 0) && (
+                            <span className="text-gray-400 text-sm">No media files</span>
+                          )}
+                      </div>
+                    </td>
+                    <td className="px-4 py-3 flex justify-center gap-2">
+                      <button
+                        onClick={() => editVideo(video)}
+                        className="px-3 py-2 bg-blue-100 text-blue-600 rounded-lg">
+                        <FaEdit className="w-4 h-4" />
+                      </button>
+                      <button
+                        onClick={() => deleteVideo(video._id)}
+                        className="px-3 py-2 bg-red-100 text-red-600 rounded-lg">
+                        <FaTrash className="w-4 h-4" />
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
     </div>
   );
 };
 
-export default VideoAdmin;
+export default BannerAdmin;

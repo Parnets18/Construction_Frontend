@@ -5,12 +5,14 @@ import "aos/dist/aos.css";
 
 const MissionVisionValues = () => {
   const [cards, setCards] = useState([]);
+  const [aboutData, setAboutData] = useState(null);
 
   useEffect(() => {
     AOS.init({ duration: 1000, once: true });
 
+    // Fetch Vision/Mission cards
     axios
-      .get("http://localhost:5000/api/vision-Mission")
+      .get("https://construction-backend-vm2j.onrender.com/api/vision-Mission")
       .then((res) => {
         const updatedCards = res.data.map((item) => ({
           title: item.title,
@@ -19,7 +21,22 @@ const MissionVisionValues = () => {
         }));
         setCards(updatedCards);
       })
-      .catch((err) => console.error("Error fetching cards:", err));
+      .catch((err) => {
+        console.error("Error fetching vision-mission cards:", err);
+        console.error("Error details:", err.response?.data);
+      });
+
+    // Fetch About Us data for "Our Story" section
+    axios
+      .get("https://construction-backend-vm2j.onrender.com/api/about/all")
+      .then((res) => {
+        if (res.data.data && res.data.data.length > 0) {
+          setAboutData(res.data.data[0]); // Use the first about entry
+        }
+      })
+      .catch((err) => {
+        console.error("Error fetching about data:", err);
+      });
   }, []);
 
   return (
@@ -39,7 +56,7 @@ const MissionVisionValues = () => {
             Building strong foundations with quality, integrity, and trust.
           </p>
         </div>
-        <div className="absolute bottom-0 left-0 w-full h-2 bg-red-600"></div>
+
       </section>
 
       {/* Company Introduction */}
@@ -65,51 +82,78 @@ const MissionVisionValues = () => {
         </div>
       </section>
 
-      {/* Our Story */}
+      {/* Our Story - Dynamic */}
       <section className="bg-gray-50 py-20 px-4">
         <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <div data-aos="fade-right">
             <h2 className="text-4xl font-semibold mb-6">
-              <span className="text-blue-600">Our</span>{" "}
-              <span className="text-red-600">Story</span>
+              <span className="text-blue-600">{aboutData?.title?.split(' ')[0] || 'Our'}</span>{" "}
+              <span className="text-red-600">{aboutData?.title?.split(' ').slice(1).join(' ') || 'Story'}</span>
             </h2>
 
-            <p className="text-lg leading-relaxed mb-6">
-              Our journey began with a simple belief — quality construction
-              builds long-lasting trust. What started as a small operation has
-              grown into a trusted construction partner for diverse projects.
-            </p>
-
-            <p className="text-lg leading-relaxed mb-8">
-              Over the years, we have delivered projects that stand strong in
-              both structure and design. Our growth is driven by skilled
-              professionals, transparent processes, and satisfied clients.
-            </p>
+            <div className="text-lg leading-relaxed mb-8">
+              {aboutData?.description ? (
+                aboutData.description.split('\n\n').map((paragraph, index) => (
+                  <p key={index} className="mb-6">
+                    {paragraph}
+                  </p>
+                ))
+              ) : (
+                <>
+                  <p className="mb-6">
+                    Our journey began with a simple belief — quality construction
+                    builds long-lasting trust. What started as a small operation has
+                    grown into a trusted construction partner for diverse projects.
+                  </p>
+                  <p className="mb-6">
+                    Over the years, we have delivered projects that stand strong in
+                    both structure and design. Our growth is driven by skilled
+                    professionals, transparent processes, and satisfied clients.
+                  </p>
+                </>
+              )}
+            </div>
 
             <div className="grid grid-cols-2 gap-6">
-              <div className="text-center">
-                <div className="text-3xl font-semibold text-blue-600">500+</div>
-                <p className="text-gray-600">Projects Delivered</p>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-semibold text-red-600">15+</div>
-                <p className="text-gray-600">Years of Experience</p>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-semibold text-blue-600">100+</div>
-                <p className="text-gray-600">Satisfied Clients</p>
-              </div>
-              <div className="text-center">
-                <div className="text-3xl font-semibold text-red-600">50+</div>
-                <p className="text-gray-600">Skilled Professionals</p>
-              </div>
+              {aboutData?.stats && aboutData.stats.length > 0 ? (
+                aboutData.stats.map((stat, index) => (
+                  <div key={index} className="text-center">
+                    <div className={`text-3xl font-semibold ${index % 2 === 0 ? 'text-blue-600' : 'text-red-600'}`}>
+                      {stat.number}{stat.suffix}
+                    </div>
+                    <p className="text-gray-600">{stat.label}</p>
+                  </div>
+                ))
+              ) : (
+                <>
+                  <div className="text-center">
+                    <div className="text-3xl font-semibold text-blue-600">500+</div>
+                    <p className="text-gray-600">Projects Delivered</p>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-3xl font-semibold text-red-600">15+</div>
+                    <p className="text-gray-600">Years of Experience</p>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-3xl font-semibold text-blue-600">100+</div>
+                    <p className="text-gray-600">Satisfied Clients</p>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-3xl font-semibold text-red-600">50+</div>
+                    <p className="text-gray-600">Skilled Professionals</p>
+                  </div>
+                </>
+              )}
             </div>
           </div>
 
           <div data-aos="fade-left">
             <img
-              src="https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=800&q=80"
-              alt="Construction Site"
+              src={aboutData?.image 
+                ? `https://construction-backend-vm2j.onrender.com/uploads/about/${aboutData.image}?t=${Date.now()}`
+                : "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=800&q=80"
+              }
+              alt={aboutData?.title || "Construction Site"}
               className="w-full h-96 object-cover rounded-2xl shadow-lg"
             />
           </div>
@@ -139,7 +183,7 @@ const MissionVisionValues = () => {
             >
               {card.images?.length > 0 && (
                 <img
-                  src={`http://localhost:5000/uploads/vision-mission/${card.images[0]}?t=${Date.now()}`}
+                  src={`https://construction-backend-vm2j.onrender.com/uploads/vision-mission/${card.images[0]}?t=${Date.now()}`}
                   alt={card.title}
                   className="w-full h-52 object-cover rounded-2xl mb-6"
                 />

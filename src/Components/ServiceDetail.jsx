@@ -3,196 +3,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import { ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react";
 import AOS from "aos";
 import "aos/dist/aos.css";
-import { MdSupportAgent } from "react-icons/md";
 import axios from "axios";
-
-// --- Contact + Support Section (unchanged) ---
-const ContactSection = () => {
-  const [formData, setFormData] = useState({
-    fullName: "",
-    email: "",
-    phone: "",
-    subject: "",
-    message: "",
-  });
-
-  const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState("");
-
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setSuccess("");
-
-    try {
-      const res = await axios.post(
-        "http://localhost:5000/api/contacts",
-        formData,
-        {
-          headers: { "Content-Type": "application/json" },
-        }
-      );
-
-      if (res.status === 200) {
-        setSuccess("Message sent successfully!");
-        setFormData({
-          fullName: "",
-          email: "",
-          phone: "",
-          subject: "",
-          message: "",
-        });
-      } else {
-        setSuccess("Something went wrong. Please try again.");
-      }
-    } catch (error) {
-      console.error(error);
-      setSuccess("Failed to send message. Please try again.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  return (
-    <div className="mt-20 px-4 sm:px-6 lg:px-14">
-      <div className="max-w-6xl mx-auto flex flex-col lg:flex-row gap-10">
-        {/* --- Support Section --- */}
-        <div
-          className="lg:w-1/3 bg-gray-50 rounded-2xl p-6 sm:p-4 shadow-md hover:scale-105 transition"
-          data-aos="fade-right"
-          data-aos-duration="1000">
-          <div className="text-center lg:text-left mb-6">
-            <span className="text-white font-bold text-sm w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center text-4xl sm:text-5xl mx-auto lg:mx-0">
-              <MdSupportAgent />
-            </span>
-            <h3 className="text-2xl font-bold text-blue-600 mb-2 mt-2">
-              Support Center
-            </h3>
-            <p className="text-gray-600 text-sm sm:text-base">
-              We’re here to help 24/7
-            </p>
-          </div>
-
-          <div className="space-y-6">
-            <div className="flex items-center space-x-3">
-              <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center">
-                <span className="text-white text-lg">📞</span>
-              </div>
-              <div>
-                <h4 className="font-semibold text-blue-600">
-                  Call Support 24/7
-                </h4>
-                <p className="text-gray-600 text-sm">+91 990 000 3011</p>
-              </div>
-            </div>
-
-            <div className="flex items-center space-x-3">
-              <div className="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center">
-                <span className="text-white text-lg">✉️</span>
-              </div>
-              <div>
-                <h4 className="font-semibold text-blue-600">Write To Us</h4>
-                <p className="text-gray-600 text-sm">
-                  info@prithvidevelopers.com
-                </p>
-              </div>
-            </div>
-
-            <img
-              src="https://www.shutterstock.com/shutterstock/photos/1837034656/display_1500/stock-photo-photo-of-pretty-young-girl-sit-desktop-pc-hold-pen-write-notepad-wear-glasses-shirt-in-home-office-1837034656.jpg"
-              alt="Support team member"
-              className="rounded-lg shadow-md mt-6 w-full object-cover"
-            />
-          </div>
-        </div>
-
-        {/* --- Contact Form --- */}
-        <div
-          className="lg:w-2/3 bg-white rounded-2xl p-6 sm:p-8 shadow-lg"
-          data-aos="fade-left"
-          data-aos-duration="1000">
-          <div className="mb-6 sm:mb-8 text-center lg:text-left">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-blue-600 mb-4">
-              Reach out to us
-            </h2>
-            <p className="text-gray-600 text-sm sm:text-base md:text-lg">
-              Have questions about our services? Need a project quote? Fill out
-              the form and our team will get back to you soon.
-            </p>
-          </div>
-
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <input
-                type="text"
-                name="fullName"
-                value={formData.fullName}
-                onChange={handleChange}
-                required
-                placeholder="Full Name *"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm sm:text-base focus:ring-2 focus:ring-red-600 outline-none"
-              />
-              <input
-                type="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                required
-                placeholder="Email Address *"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm sm:text-base focus:ring-2 focus:ring-red-600 outline-none"
-              />
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <input
-                type="tel"
-                name="phone"
-                value={formData.phone}
-                onChange={handleChange}
-                placeholder="Phone Number"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm sm:text-base focus:ring-2 focus:ring-red-600 outline-none"
-              />
-              <input
-                type="text"
-                name="subject"
-                value={formData.subject}
-                onChange={handleChange}
-                placeholder="Subject"
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm sm:text-base focus:ring-2 focus:ring-red-600 outline-none"
-              />
-            </div>
-
-            <textarea
-              name="message"
-              value={formData.message}
-              onChange={handleChange}
-              required
-              rows="5"
-              placeholder="Your Message *"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg text-sm sm:text-base focus:ring-2 focus:ring-red-600 outline-none resize-none"></textarea>
-
-            {success && (
-              <p className="text-blue-600 font-semibold">{success}</p>
-            )}
-
-            <div className="text-center lg:text-left">
-              <button
-                type="submit"
-                disabled={loading}
-                className="bg-blue-600 text-white px-6 sm:px-8 py-3 rounded-full font-semibold hover:bg-blue-700 transition duration-200 text-sm sm:text-base">
-                {loading ? "Sending..." : "Send Message"}
-              </button>
-            </div>
-          </form>
-        </div>
-      </div>
-    </div>
-  );
-};
+import ContactSection from "./ContactSection";
 
 // --- Service Detail Page with Backend Images ---
 const ServiceDetail = () => {
@@ -205,7 +17,7 @@ const ServiceDetail = () => {
     AOS.init({ once: true });
 
     axios
-      .get("http://localhost:5000/api/services")
+      .get("https://construction-backend-vm2j.onrender.com/api/services")
       .then((res) => {
         setServices(res.data);
 
@@ -259,7 +71,7 @@ const ServiceDetail = () => {
             <div className="relative rounded-3xl overflow-hidden shadow-xl aspect-[4/3] w-full">
               {/* ✅ Backend Image */}
               <img
-                src={`http://localhost:5000/uploads/services/${service.images[0]}`}
+                src={`https://construction-backend-vm2j.onrender.com/uploads/services/${service.images[0]}`}
                 alt={service.title}
                 className="w-full h-full object-cover"
               />
@@ -287,7 +99,7 @@ const ServiceDetail = () => {
                       : "hover:ring-2 hover:ring-gray-300"
                   }`}>
                   <img
-                    src={`http://localhost:5000/uploads/services/${img}`}
+                    src={`https://construction-backend-vm2j.onrender.com/uploads/services/${img}`}
                     alt={`Thumbnail ${index + 1}`}
                     className="w-20 h-16 object-cover"
                   />
@@ -325,7 +137,7 @@ const ServiceDetail = () => {
         </div>
       </div>
 
-      {/* --- Contact + Support Section --- */}
+      {/* --- Contact Section --- */}
       <ContactSection />
     </div>
   );

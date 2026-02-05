@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-import ImageCarousel from "./ImageCarousel";
+import ImageBanner from "./ImageBanner";
 import Aboutus from "./Aboutus";
 import ConstructionServices from "./ConstructionServices";
 import TestimonialsCard from "./TestimonialsCard";
@@ -13,41 +13,26 @@ const Home = () => {
 
   return (
     <>
-      <div className="min-h-screen flex flex-col">
-        <section className="min-h-screen flex items-center relative overflow-hidden bg-gray-900">
-          <div className="relative z-10 w-full mt-14">
-            <div className="relative">
-              <ImageCarousel />
-              
-              {/* Text Overlay on Image */}
-              <div className="absolute inset-0 flex items-center justify-start z-20">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-                  <div className="max-w-2xl">
-                    <h1 className="text-4xl md:text-6xl font-semibold text-white mb-4 leading-tight">
-                      Building Excellence,
-                      <span className="block text-red-500">Creating Dreams</span>
-                    </h1>
-                    <p className="text-lg md:text-xl text-gray-200 mb-8 leading-relaxed">
-                      Professional construction services with state-of-the-art technology and experienced professionals dedicated to your project success.
-                    </p>
-                    <button className="px-8 py-4 bg-gradient-to-r from-red-500 to-red-600 text-white font-medium rounded-lg hover:from-red-600 hover:to-red-700 transition-all duration-300 shadow-lg">
-                      Get Started
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
+      {/* Banner Section */}
+      <section className="relative overflow-hidden">
+        <div className="relative z-10 w-full">
+          <div className="relative">
+            <ImageBanner />
           </div>
-        </section>
+        </div>
+      </section>
+
+      {/* Content Sections */}
+      <div className="flex flex-col">
         {/* About Us Section */}
-        <section id="projects" className=" bg-gray-50 ">
-          <div className=" mx-auto px-4 sm:px-6 lg:px-8">
+        <section id="projects" className="bg-gray-50">
+          <div className="mx-auto px-4 sm:px-6 lg:px-8">
             <Aboutus />
           </div>
         </section>
 
-        <section id="projects" className=" bg-gray-50">
-          <div className=" mx-auto px-4 sm:px-6 lg:px-8">
+        <section id="projects" className="bg-gray-50">
+          <div className="mx-auto px-4 sm:px-6 lg:px-8">
             <ConstructionServices isHomePage={true} />
           </div>
         </section>
@@ -145,8 +130,8 @@ const Home = () => {
           </div>
         </div>
       </section>
-        <section id="projects" className=" bg-gray-50">
-          <div className=" mx-auto px-4 sm:px-6 lg:px-8">
+        <section id="projects" className="bg-gray-50">
+          <div className="mx-auto px-4 sm:px-6 lg:px-8">
             <TestimonialsCard />
           </div>
         </section>

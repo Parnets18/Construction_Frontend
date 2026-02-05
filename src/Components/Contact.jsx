@@ -22,7 +22,6 @@ const Contact = () => {
             Get in touch with our construction experts today.
           </p>
         </div>
-        <div className="absolute bottom-0 left-0 w-full h-3 bg-red-500"></div>
       </section>
 
       <section>
@@ -34,7 +33,5 @@ const Contact = () => {
     </>
   );
 };
-export default Contact;
 
-// #1E40AF is a dark blue (deep navy blue)
-// #ccb28b is a light gold (tan/beige gold color)
+export default Contact;

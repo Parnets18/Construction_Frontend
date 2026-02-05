@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Bell,
   Menu,
@@ -9,21 +9,29 @@ import {
   Beaker,
   CircleUserRound,
   Contact,
+  Building,
+  LogOut,
 } from "lucide-react";
-import { Link, Outlet, useLocation } from "react-router-dom"; // ✅ useLocation to highlight active menu
-import Logo from "/src/Images/logo.png";
+import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 
 const AdminPanel = () => {
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("isAdminLoggedIn");
+    navigate("/admin/login");
+  };
 
   const navigation = [
     {
-      id: "carousel",
-      name: "Carousel",
+      id: "banner",
+      name: "Banner",
       icon: <ImageIcon size={20} />,
-      path: "/admin/carousel",
+      path: "/admin/banner",
     },
     {
       id: "About-Us",
@@ -45,6 +53,12 @@ const AdminPanel = () => {
       path: "/admin/services",
     },
     {
+      id: "projects",
+      name: "Projects",
+      icon: <Building size={20} />,
+      path: "/admin/projects",
+    },
+    {
       id: "testimonials",
       name: "Testimonials",
       icon: <Beaker size={20} />,
@@ -62,27 +76,22 @@ const AdminPanel = () => {
       icon: <Contact />,
       path: "/admin/contact-form",
     },
-    {
-      id: "login",
-      name: "logout",
-      icon:  <CardSim size={20} />,
-      path: "/admin/login",
-    },
   ];
 
   return (
-    <div className="flex h-screen bg-gray-50">
+    <div className="flex h-screen bg-white">
       {/* Sidebar */}
       <div
-        className={`fixed md:relative z-30 w-64 bg-blue-600 text-white transition-all duration-300 ease-in-out ${
+        className={`fixed md:relative z-30 w-64 bg-white text-black border-r border-gray-200 transition-all duration-300 ease-in-out ${
           sidebarOpen ? "ml-0" : "-ml-64"
         } md:ml-0`}>
-        <div className="p-4 border-b border-[#1D4ED8]">
+        <div className="p-4 border-b border-gray-200">
           <div className="flex items-center">
-            <img src={Logo} alt="" className="h-20 w-28" />
+            <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold text-lg mr-3">
+              C
+            </div>
             <div>
-              <h1 className="text-xl font-bold">Prithvi & Constructions</h1>
-              <p className="text-[#dc2626] text-sm">Admin Panel</p>
+              <h1 className="text-xl font-bold text-black">Admin Panel</h1>
             </div>
           </div>
         </div>
@@ -95,14 +104,14 @@ const AdminPanel = () => {
                   to={item.path}
                   className={`w-full flex items-center p-3 rounded-lg transition-all ${
                     location.pathname === item.path
-                      ? "bg-[#dc2626] text-blue-700 shadow-md"
-                      : "text-gray-200 hover:bg-[#1D4ED8] hover:text-white"
+                      ? "bg-gray-200 text-black shadow-md"
+                      : "text-black hover:bg-gray-100 hover:text-black"
                   }`}>
                   <span
                     className={`${
                       location.pathname === item.path
-                        ? "text-blue-700"
-                        : "text-[#dc2626]"
+                        ? "text-black"
+                        : "text-gray-600"
                     }`}>
                     {item.icon}
                   </span>
@@ -110,6 +119,16 @@ const AdminPanel = () => {
                 </Link>
               </li>
             ))}
+            
+            {/* Logout Button */}
+            <li>
+              <button
+                onClick={handleLogout}
+                className="w-full flex items-center p-3 rounded-lg transition-all bg-red-600 text-white hover:bg-red-700">
+                <LogOut size={20} className="text-white" />
+                <span className="ml-3 font-medium">Logout</span>
+              </button>
+            </li>
           </ul>
         </nav>
       </div>
@@ -122,13 +141,13 @@ const AdminPanel = () => {
             <div className="flex items-center">
               <button
                 onClick={() => setSidebarOpen(!sidebarOpen)}
-                className="mr-4 text-gray-500 focus:outline-none md:hidden">
+                className="mr-4 text-black focus:outline-none md:hidden">
                 <Menu size={24} />
               </button>
             </div>
 
             <div className="flex items-center space-x-4">
-              <button className="relative p-1 text-gray-500 hover:text-blue-700">
+              <button className="relative p-1 text-black hover:text-blue-700">
                 <Bell size={24} />
                 <span className="absolute top-0 right-0 w-2 h-2 bg-orange-500 rounded-full"></span>
               </button>
@@ -137,15 +156,17 @@ const AdminPanel = () => {
                 <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white font-semibold">
                   A
                 </div>
-                <span className="ml-2 text-gray-700">Admin</span>
+                <span className="ml-2 text-black">Admin</span>
               </div>
             </div>
           </div>
         </header>
 
         {/* Nested routes will render here */}
-        <main className="flex-1 overflow-y-auto p-4 md:p-6 bg-gray-50">
-          <Outlet /> {/* ✅ All child routes appear here */}
+        <main className="flex-1 overflow-hidden p-4 md:p-6 bg-white text-black">
+          <div className="h-full overflow-y-auto">
+            <Outlet /> {/* ✅ All child routes appear here */}
+          </div>
         </main>
       </div>
 

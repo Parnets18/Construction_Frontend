@@ -5,10 +5,7 @@ import { Plus, Save, X, Edit, Trash2 } from "lucide-react";
 const AdminServices = () => {
   const [form, setForm] = useState({
     title: "",
-    description: "",
-    text: "",
     paragraph: "",
-    details: "",
     features: [],
     newFeature: "",
     images: [],
@@ -21,8 +18,8 @@ const AdminServices = () => {
 
   const imageInputRef = useRef(null);
 
-  const API_URL = "http://localhost:5000/api/services";
-  const UPLOADS_URL = "http://localhost:5000/uploads/services/";
+  const API_URL = "https://construction-backend-vm2j.onrender.com/api/services";
+  const UPLOADS_URL = "https://construction-backend-vm2j.onrender.com/uploads/services/";
 
   // Fetch services
   const fetchData = async () => {
@@ -97,18 +94,15 @@ const AdminServices = () => {
 
   // Save / Update
   const handleSave = async () => {
-    if (!form.title || !form.description) {
-      alert("Title and Description are required!");
+    if (!form.title) {
+      alert("Title is required!");
       return;
     }
 
     try {
       const formData = new FormData();
       formData.append("title", form.title);
-      formData.append("description", form.description);
-      formData.append("text", form.text);
       formData.append("paragraph", form.paragraph);
-      formData.append("details", form.details);
       formData.append("features", JSON.stringify(form.features));
 
       // Append new image files
@@ -146,10 +140,7 @@ const AdminServices = () => {
   const handleEdit = (item) => {
     setForm({
       title: item.title,
-      description: item.description || "",
-      text: item.text || "",
       paragraph: item.paragraph || "",
-      details: item.details || "",
       features: item.features || [],
       newFeature: "",
       images: item.images || [],
@@ -176,10 +167,7 @@ const AdminServices = () => {
   const resetForm = () => {
     setForm({
       title: "",
-      description: "",
-      text: "",
       paragraph: "",
-      details: "",
       features: [],
       newFeature: "",
       images: [],
@@ -192,38 +180,50 @@ const AdminServices = () => {
   };
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
-      <div className="max-w-6xl mx-auto">
-        <div className="flex justify-between mb-6">
-          <h1 className="text-3xl font-bold text-orange-400">
-            Admin Panel – Services
-          </h1>
-          {!showForm && (
-            <button
-              onClick={() => setShowForm(true)}
-              className="flex items-center px-5 py-3 rounded-xl bg-gradient-to-r from-blue-600 to-red-600 text-white font-semibold hover:scale-105 transition-transform shadow-lg shadow-blue-500/20">
-              <Plus className="mr-2" /> Add Service
-            </button>
-          )}
-        </div>
+    <div className="h-full flex flex-col bg-white text-black">
+      <div className="flex-shrink-0 flex justify-between mb-6">
+        <h1 className="text-3xl font-bold text-blue-600">
+          Admin Panel – Services
+        </h1>
+        {!showForm && (
+          <button
+            onClick={() => setShowForm(true)}
+            className="flex items-center px-5 py-3 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-700 transition-colors shadow-lg">
+            <Plus className="mr-2" /> Add Service
+          </button>
+        )}
+      </div>
+
+      <div className="flex-1 overflow-y-auto">
+        <div className="max-w-6xl mx-auto space-y-6">
 
         {/* Form */}
         {showForm && (
-          <div className="bg-white rounded-xl shadow-lg shadow-blue-500/20 p-6 space-y-4 border backdrop-blur-md">
+          <div className="bg-white rounded-xl shadow-lg shadow-blue-500/20 p-6 space-y-4 border backdrop-blur-md mb-6">
             {/* Inputs */}
-            {["title", "description", "text", "paragraph", "details"].map(
-              (field) => (
-                <input
-                  key={field}
-                  type="text"
-                  name={field}
-                  placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
-                  value={form[field]}
-                  onChange={handleChange}
-                  className="w-full p-3 border-2 border-blue-300 focus:border-blue-600 rounded-lg focus:outline-none focus:border-blue-500 shadow-sm"
-                />
-              )
-            )}
+            <div>
+              <label className="block mb-1 font-semibold">Title:</label>
+              <input
+                type="text"
+                name="title"
+                placeholder="Title"
+                value={form.title}
+                onChange={handleChange}
+                className="w-full p-3 border-2 border-blue-300 focus:border-blue-600 rounded-lg focus:outline-none focus:border-blue-500 shadow-sm"
+              />
+            </div>
+
+            <div>
+              <label className="block mb-1 font-semibold">Paragraph:</label>
+              <textarea
+                name="paragraph"
+                placeholder="Paragraph"
+                value={form.paragraph}
+                onChange={handleChange}
+                rows="4"
+                className="w-full p-3 border-2 border-blue-300 focus:border-blue-600 rounded-lg focus:outline-none focus:border-blue-500 shadow-sm"
+              />
+            </div>
 
             {/* Features Section */}
             <div>
@@ -348,57 +348,113 @@ const AdminServices = () => {
         )}
 
         {/* Table */}
-        <div className="bg-white shadow-lg shadow-blue-500/20 rounded-xl overflow-x-auto mt-6">
-          <table className="min-w-full">
-            <thead className="bg-blue-600 text-white">
-              <tr>
-                <th className="px-4 py-3 text-left">Images</th>
-                <th className="px-4 py-3 text-left">Title</th>
-                <th className="px-4 py-3 text-left">Description</th>
-                <th className="px-4 py-3 text-left">Text</th>
-                <th className="px-4 py-3 text-left">Paragraph</th>
-                <th className="px-4 py-3 text-left">Details</th>
-                <th className="px-4 py-3 text-center">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {data.map((item) => (
-                <tr key={item._id} className="border-b hover:bg-gray-50">
-                  <td className="px-4 py-3 flex gap-2">
-                    {item.images && item.images.length > 0 ? (
-                      item.images.map((img, i) => (
-                        <img
-                          key={i}
-                          src={`${UPLOADS_URL}${img}`}
-                          alt={item.title}
-                          className="w-12 h-12 object-cover rounded-lg border"
-                        />
-                      ))
-                    ) : (
-                      <span className="text-gray-400 text-sm">No images</span>
-                    )}
-                  </td>
-                  <td className="px-4 py-3 font-semibold">{item.title}</td>
-                  <td className="px-4 py-3">{item.description}</td>
-                  <td className="px-4 py-3">{item.text}</td>
-                  <td className="px-4 py-3">{item.paragraph}</td>
-                  <td className="px-4 py-3">{item.details}</td>
-                  <td className="px-4 py-3 flex justify-center gap-2">
-                    <button
-                      onClick={() => handleEdit(item)}
-                      className="px-3 py-2 bg-blue-100 text-blue-600 rounded-lg">
-                      <Edit className="w-4 h-4" />
-                    </button>
-                    <button
-                      onClick={() => handleDelete(item._id)}
-                      className="px-3 py-2 bg-red-100 text-orange-600 rounded-lg">
-                      <Trash2 className="w-4 h-4" />
-                    </button>
-                  </td>
+        <div className="flex-1 bg-white shadow-lg shadow-blue-500/20 rounded-xl overflow-hidden">
+          <div className="overflow-x-auto h-full">
+            <table className="min-w-full table-fixed">
+              <thead className="bg-blue-600 text-white">
+                <tr>
+                  <th className="w-32 px-4 py-3 text-left font-semibold">Images</th>
+                  <th className="w-48 px-4 py-3 text-left font-semibold">Title</th>
+                  <th className="px-4 py-3 text-left font-semibold">Paragraph</th>
+                  <th className="w-40 px-4 py-3 text-left font-semibold">Features</th>
+                  <th className="w-28 px-4 py-3 text-center font-semibold">Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {data.length > 0 ? (
+                  data.map((item) => (
+                    <tr key={item._id} className="hover:bg-blue-50 transition-colors">
+                      <td className="px-4 py-4">
+                        <div className="flex gap-2">
+                          {item.images && item.images.length > 0 ? (
+                            item.images.slice(0, 2).map((img, i) => (
+                              <img
+                                key={i}
+                                src={`${UPLOADS_URL}${img}`}
+                                alt={item.title}
+                                className="w-12 h-12 object-cover rounded-lg border border-gray-300 shadow-sm"
+                              />
+                            ))
+                          ) : (
+                            <div className="w-12 h-12 bg-gray-100 rounded-lg border border-gray-300 flex items-center justify-center">
+                              <span className="text-gray-400 text-xs">No Image</span>
+                            </div>
+                          )}
+                          {item.images && item.images.length > 2 && (
+                            <div className="w-12 h-12 bg-gray-100 rounded-lg border border-gray-300 flex items-center justify-center">
+                              <span className="text-gray-400 text-xs">+{item.images.length - 2}</span>
+                            </div>
+                          )}
+                        </div>
+                      </td>
+                      <td className="px-4 py-4">
+                        <div className="font-semibold text-gray-900 text-sm">{item.title}</div>
+                      </td>
+                      <td className="px-4 py-4">
+                        <div className="text-gray-700 text-sm leading-relaxed">
+                          {item.paragraph?.length > 120 
+                            ? `${item.paragraph.substring(0, 120)}...` 
+                            : item.paragraph}
+                        </div>
+                      </td>
+                      <td className="px-4 py-4">
+                        <div className="space-y-1">
+                          <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                            {item.features?.length || 0} Features
+                          </span>
+                          {item.features && item.features.length > 0 && (
+                            <div className="text-xs text-gray-500">
+                              {item.features.slice(0, 1).map((feature, idx) => (
+                                <div key={idx} className="truncate">
+                                  {feature}
+                                </div>
+                              ))}
+                              {item.features.length > 1 && (
+                                <div className="text-blue-600 font-medium">+{item.features.length - 1} more</div>
+                              )}
+                            </div>
+                          )}
+                        </div>
+                      </td>
+                      <td className="px-4 py-4">
+                        <div className="flex justify-center gap-1">
+                          <button
+                            onClick={() => handleEdit(item)}
+                            className="p-2 bg-blue-100 text-blue-700 rounded-lg hover:bg-blue-200 transition-colors">
+                            <Edit className="w-4 h-4" />
+                          </button>
+                          <button
+                            onClick={() => handleDelete(item._id)}
+                            className="p-2 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 transition-colors">
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td colSpan="5" className="px-6 py-12 text-center">
+                      <div className="flex flex-col items-center">
+                        <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
+                          <Plus className="w-8 h-8 text-gray-400" />
+                        </div>
+                        <h3 className="text-lg font-medium text-gray-900 mb-2">No Services</h3>
+                        <p className="text-gray-500 mb-4">Get started by creating your first service.</p>
+                        <button
+                          onClick={() => setShowForm(true)}
+                          className="inline-flex items-center px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                          <Plus className="w-4 h-4 mr-2" />
+                          Add Service
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
         </div>
       </div>
     </div>

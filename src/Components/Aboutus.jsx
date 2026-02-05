@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import { HiArrowRight } from "react-icons/hi";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -22,7 +23,7 @@ const Aboutus = () => {
 
     // ✅ Backend se data fetch
     axios
-      .get("http://localhost:5000/api/about")
+      .get("https://construction-backend-vm2j.onrender.com/api/about")
       .then((res) => {
         console.log(res.data);
         setFeatures(res.data.features || []);

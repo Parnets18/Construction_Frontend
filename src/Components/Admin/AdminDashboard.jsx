@@ -19,13 +19,13 @@ const AdminDashboard = () => {
 
         <nav className="flex-1 p-4 space-y-2">
           <NavLink
-            to="/admin/carousel"
+            to="/admin/banner"
             className={({ isActive }) =>
               isActive
                 ? "block bg-gray-700 p-2 rounded"
                 : "block p-2 hover:bg-gray-700 rounded"
             }>
-            Carousel
+            Banner
           </NavLink>
           <NavLink
             to="/admin/aboutus"
@@ -53,6 +53,15 @@ const AdminDashboard = () => {
                 : "block p-2 hover:bg-gray-700 rounded"
             }>
             Services
+          </NavLink>
+          <NavLink
+            to="/admin/projects"
+            className={({ isActive }) =>
+              isActive
+                ? "block bg-gray-700 p-2 rounded"
+                : "block p-2 hover:bg-gray-700 rounded"
+            }>
+            Project
           </NavLink>
           <NavLink
             to="/admin/testimonials"

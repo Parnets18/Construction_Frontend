@@ -13,7 +13,7 @@ const TestimonialsCard = () => {
     const fetchTestimonials = async () => {
       try {
         const res = await axios.get(
-          "http://localhost:5000/api/testimonials/"
+          "https://construction-backend-vm2j.onrender.com/api/testimonials/"
         );
         const mappedTestimonials = res.data.map((item) => ({
           id: item._id,
@@ -22,7 +22,7 @@ const TestimonialsCard = () => {
           role: item.designation,
           rating: item.rating,
           avatar: item.profilePic
-            ? `http://localhost:5000/uploads/testimonials/${item.profilePic}`
+            ? `https://construction-backend-vm2j.onrender.com/uploads/testimonials/${item.profilePic}`
             : "https://via.placeholder.com/150",
         }));
         setTestimonials(mappedTestimonials);

@@ -7,16 +7,15 @@ import Projects from "./Components/Projects";
 import Services from "./Components/Services";
 import Contact from "./Components/Contact";
 import Footer from "./Components/Footer";
-import ServiceDetail from "./Components/ServiceDetail";
-import ProjectDetail from "./Components/ProjectDetail";
 import "aos/dist/aos.css";
 
 // Admin Components
-import AdminDashboard from "./Components/Admin/AdminDashboard"; // ✅ Updated
-import AdminCorousal from "./Components/Admin/AdminCorousal";
+import AdminPanel from "./Components/Admin/AdminPanel"; // ✅ Updated to use AdminPanel
+import AdminBanner from "./Components/Admin/AdminBanner";
 import AdminAboutUs from "./Components/Admin/AdminAboutUs";
 import AdminVisionMission from "./Components/Admin/AdminVisionMission";
 import AdminServices from "./Components/Admin/AdminServices";
+import AdminProjects from "./Components/Admin/AdminProjects";
 import AdminTestimonial from "./Components/Admin/AdminTestimonial";
 import AdminContactCard from "./Components/Admin/AdminContactCard";
 import AdminContactPanel from "./Components/Admin/AdminContactPanel";
@@ -47,14 +46,15 @@ function App() {
           path="/admin/*"
           element={
             <ProtectedRoute>
-              <AdminDashboard /> {/* ✅ Use AdminDashboard */}
+              <AdminPanel /> {/* ✅ Use AdminPanel */}
             </ProtectedRoute>
           }
         >
-          <Route path="carousel" element={<AdminCorousal />} />
+          <Route path="banner" element={<AdminBanner />} />
           <Route path="aboutus" element={<AdminAboutUs />} />
           <Route path="vision-mission" element={<AdminVisionMission />} />
           <Route path="services" element={<AdminServices />} />
+          <Route path="projects" element={<AdminProjects />} />
           <Route path="testimonials" element={<AdminTestimonial />} />
           <Route path="contactcards" element={<AdminContactCard />} />
           <Route path="contact-form" element={<AdminContactPanel />} />
@@ -69,10 +69,8 @@ function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/projects" element={<Projects />} />
-                <Route path="/projects/:id" element={<ProjectDetail />} />
                 <Route path="/services" element={<Services />} />
                 <Route path="/contactus" element={<Contact />} />
-                <Route path="/services/:id" element={<ServiceDetail />} />
               </Routes>
             </MainLayout>
           }

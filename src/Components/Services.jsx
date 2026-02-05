@@ -22,7 +22,6 @@ const Services = () => {
             Comprehensive construction solutions for every project.
           </p>
         </div>
-        <div className="absolute bottom-0 left-0 w-full h-3 bg-red-500"></div>
       </section>
 
       <ConstructionServices isHomePage={false} />

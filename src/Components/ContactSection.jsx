@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Phone, Mail, CheckCircle, X, Loader, MapPin } from "lucide-react";
 import axios from "axios";
 
@@ -11,14 +11,37 @@ const ContactSection = () => {
     message: "",
   });
 
+  const [contactCards, setContactCards] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const [popupMessage, setPopupMessage] = useState("");
   const [errors, setErrors] = useState({});
 
+  // Fetch contact cards from admin panel
+  useEffect(() => {
+    const fetchContactCards = async () => {
+      try {
+        const response = await axios.get("https://construction-backend-vm2j.onrender.com/api/contactcards");
+        setContactCards(response.data);
+      } catch (error) {
+        console.error("Error fetching contact cards:", error);
+        // Fallback to default contact info if API fails
+        setContactCards([
+          {
+            _id: "default-phone",
+            phone: "+919900003610",
+            email: "info@construction.com",
+            address: "9/15, 1st Main, Vyalikaval, Bengaluru, 560003"
+          }
+        ]);
+      }
+    };
+    fetchContactCards();
+  }, []);
+
   const validateForm = () => {
     const newErrors = {};
-    if (!formData.title.trim()) newErrors.title = "Full name is required";
+    if (!formData.title.trim()) newErrors.title = "Your name is required";
     if (!formData.email.trim()) newErrors.email = "Email is required";
     else if (!/\S+@\S+\.\S+/.test(formData.email))
       newErrors.email = "Email format is invalid";
@@ -95,7 +118,7 @@ const ContactSection = () => {
     setIsLoading(true);
     try {
       const response = await axios.post(
-        "http://localhost:5000/api/contacts",
+        "https://construction-backend-vm2j.onrender.com/api/contacts",
         formData
       );
       console.log("API Response:", response.data); // Debug
@@ -158,87 +181,98 @@ const ContactSection = () => {
           <div className="flex flex-col lg:flex-row gap-8">
             {/* Left Contact Cards Section */}
             <div className="w-full lg:w-1/3">
-              <div className="space-y-6">
-                {/* Phone Card */}
-                <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg p-6 border border-white/20 hover:shadow-xl transition-all duration-300">
-                  <div className="flex items-center mb-4">
-                    <div className="bg-gradient-to-br from-blue-600 to-blue-700 p-3 rounded-xl mr-4 shadow-lg">
-                      <Phone className="text-white" size={20} />
-                    </div>
-                    <div>
-                      <h3 className="font-medium text-black text-lg mb-1">
-                        Call Support Center 24/7
-                      </h3>
-                    </div>
-                  </div>
-                  <div className="text-gray-600 space-y-1">
-                    <p className="cursor-pointer hover:text-blue-600" onClick={() => window.location.href = "tel:+919900003610"}>
-                      +91 9900003610
-                    </p>
-                    
-                  </div>
-                </div>
+              <div className="space-y-6 h-full">
+                {/* Dynamic Contact Cards */}
+                {contactCards.map((card, index) => (
+                  <div key={card._id} className="space-y-4">
+                    {/* Phone Card */}
+                    {card.phone && (
+                      <div className="group bg-gradient-to-br from-white to-blue-50 rounded-2xl shadow-xl p-6 border-l-4 border-blue-600 hover:shadow-2xl hover:scale-105 transition-all duration-300 transform">
+                        <div className="flex items-center mb-4">
+                          <div className="bg-gradient-to-br from-blue-600 to-blue-800 p-4 rounded-full mr-4 shadow-lg group-hover:shadow-xl transition-all duration-300">
+                            <Phone className="text-white" size={24} />
+                          </div>
+                          <div>
+                            <h3 className="font-bold text-blue-800 text-xl mb-1">
+                              Call Support Center 24/7
+                            </h3>
+                            <p className="text-gray-600 text-sm">Always here to help</p>
+                          </div>
+                        </div>
+                        <div className="text-gray-700 font-semibold text-lg pl-16">
+                          <p className="cursor-pointer hover:text-blue-600 transition-colors" 
+                             onClick={() => window.location.href = `tel:${card.phone}`}>
+                            {card.phone}
+                          </p>
+                        </div>
+                      </div>
+                    )}
 
-                {/* Email Card */}
-                <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg p-6 border border-white/20 hover:shadow-xl transition-all duration-300">
-                  <div className="flex items-center mb-4">
-                    <div className="bg-gradient-to-br from-blue-600 to-blue-700 p-3 rounded-xl mr-4 shadow-lg">
-                      <Mail className="text-white" size={20} />
-                    </div>
-                    <div>
-                      <h3 className="font-medium text-black text-lg mb-1">
-                        Write To Us
-                      </h3>
-                    </div>
-                  </div>
-                  <div className="text-gray-600 space-y-1">
-                    <p className="cursor-pointer hover:text-blue-600 break-words" onClick={() => window.location.href = "mailto:info@prithvidevelopers.com"}>
-                      info@construction.com
-                    </p>
-                   
-                  </div>
-                </div>
+                    {/* Email Card */}
+                    {card.email && (
+                      <div className="group bg-gradient-to-br from-white to-blue-50 rounded-2xl shadow-xl p-6 border-l-4 border-blue-600 hover:shadow-2xl hover:scale-105 transition-all duration-300 transform">
+                        <div className="flex items-center mb-4">
+                          <div className="bg-gradient-to-br from-blue-600 to-blue-800 p-4 rounded-full mr-4 shadow-lg group-hover:shadow-xl transition-all duration-300">
+                            <Mail className="text-white" size={24} />
+                          </div>
+                          <div>
+                            <h3 className="font-bold text-blue-800 text-xl mb-1">
+                              Write To Us
+                            </h3>
+                            <p className="text-gray-600 text-sm">Quick response guaranteed</p>
+                          </div>
+                        </div>
+                        <div className="text-gray-700 font-semibold text-lg pl-16">
+                          <p className="cursor-pointer hover:text-blue-600 break-words transition-colors" 
+                             onClick={() => window.location.href = `mailto:${card.email}`}>
+                            {card.email}
+                          </p>
+                        </div>
+                      </div>
+                    )}
 
-                {/* Location Card */}
-                <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg p-6 border border-white/20 hover:shadow-xl transition-all duration-300">
-                  <div className="flex items-center mb-4">
-                    <div className="bg-gradient-to-br from-blue-600 to-blue-700 p-3 rounded-xl mr-4 shadow-lg">
-                      <MapPin className="text-white" size={20} />
-                    </div>
-                    <div>
-                      <h3 className="font-medium text-black text-lg mb-1">
-                        Visit Us
-                      </h3>
-                    </div>
+                    {/* Address Card */}
+                    {card.address && (
+                      <div className="group bg-gradient-to-br from-white to-blue-50 rounded-2xl shadow-xl p-6 border-l-4 border-blue-600 hover:shadow-2xl hover:scale-105 transition-all duration-300 transform">
+                        <div className="flex items-center mb-4">
+                          <div className="bg-gradient-to-br from-blue-600 to-blue-800 p-4 rounded-full mr-4 shadow-lg group-hover:shadow-xl transition-all duration-300">
+                            <MapPin className="text-white" size={24} />
+                          </div>
+                          <div>
+                            <h3 className="font-bold text-blue-800 text-xl mb-1">
+                              Visit Us
+                            </h3>
+                            <p className="text-gray-600 text-sm">Come see us in person</p>
+                          </div>
+                        </div>
+                        <div className="text-gray-700 font-semibold pl-16">
+                          <p className="whitespace-pre-line">{card.address}</p>
+                        </div>
+                      </div>
+                    )}
                   </div>
-                  <div className="text-gray-600 space-y-1">
-                    <p>9/15, 1st Main, Vyalikaval,</p>
-                    <p>Bengaluru, 560003</p>
-                  </div>
-                </div>
+                ))}
               </div>
             </div>
 
             {/* Right Form Section */}
             <div className="w-full lg:w-2/3">
-              <div className="bg-white/80 backdrop-blur-sm rounded-3xl shadow-2xl p-6 md:p-8 h-full border border-white/20">
-                <h2 className="text-2xl sm:text-3xl font-medium text-gray-700 mb-6">
-                  Reach out to us
+              <div className="bg-gradient-to-br from-white to-blue-50 rounded-3xl shadow-2xl p-6 md:p-8 h-full border border-blue-100 hover:shadow-3xl transition-all duration-300 flex flex-col">
+                <h2 className="text-2xl sm:text-3xl font-bold text-blue-800 mb-6">
+                  Get In Touch
                 </h2>
                 <p className="text-gray-600 mb-8 font-medium">
-                  Have questions about our construction services? Need a quote
-                  for your project? Fill out the form below and our team will
-                  get back to you as soon as possible.
+                  Have a project in mind? We'd love to hear from you.
                 </p>
 
-                <form onSubmit={handleSubmit} className="space-y-6">
+                <form onSubmit={handleSubmit} className="space-y-6 flex-1 flex flex-col">
                   {/* Name & Email */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                     <div>
                       <label
                         htmlFor="title"
                         className="block text-sm font-medium text-gray-700 mb-1">
-                        Full Name *
+                        Your Name *
                       </label>
                       <input
                         type="text"
@@ -359,6 +393,9 @@ const ContactSection = () => {
                       </p>
                     )}
                   </div>
+
+                  {/* Spacer to push button to bottom */}
+                  <div className="flex-1"></div>
 
                   {/* Submit Button */}
                   <div>
