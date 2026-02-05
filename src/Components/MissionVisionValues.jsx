@@ -82,83 +82,52 @@ const MissionVisionValues = () => {
         </div>
       </section>
 
-      {/* Our Story - Dynamic */}
-      <section className="bg-gray-50 py-20 px-4">
-        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          <div data-aos="fade-right">
-            <h2 className="text-4xl font-semibold mb-6">
-              <span className="text-blue-600">{aboutData?.title?.split(' ')[0] || 'Our'}</span>{" "}
-              <span className="text-red-600">{aboutData?.title?.split(' ').slice(1).join(' ') || 'Story'}</span>
-            </h2>
+      {/* Our Story - Dynamic (only shows when data exists) */}
+      {aboutData && (aboutData.title || aboutData.description || aboutData.image || (aboutData.stats && aboutData.stats.length > 0)) && (
+        <section className="bg-gray-50 py-20 px-4">
+          <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div data-aos="fade-right">
+              <h2 className="text-4xl font-semibold mb-6">
+                <span className="text-blue-600">{aboutData?.title?.split(' ')[0] || 'Our'}</span>{" "}
+                <span className="text-red-600">{aboutData?.title?.split(' ').slice(1).join(' ') || 'Story'}</span>
+              </h2>
 
-            <div className="text-lg leading-relaxed mb-8">
-              {aboutData?.description ? (
-                aboutData.description.split('\n\n').map((paragraph, index) => (
-                  <p key={index} className="mb-6">
-                    {paragraph}
-                  </p>
-                ))
-              ) : (
-                <>
-                  <p className="mb-6">
-                    Our journey began with a simple belief — quality construction
-                    builds long-lasting trust. What started as a small operation has
-                    grown into a trusted construction partner for diverse projects.
-                  </p>
-                  <p className="mb-6">
-                    Over the years, we have delivered projects that stand strong in
-                    both structure and design. Our growth is driven by skilled
-                    professionals, transparent processes, and satisfied clients.
-                  </p>
-                </>
-              )}
-            </div>
+              <div className="text-lg leading-relaxed mb-8">
+                {aboutData?.description && (
+                  aboutData.description.split('\n\n').map((paragraph, index) => (
+                    <p key={index} className="mb-6">
+                      {paragraph}
+                    </p>
+                  ))
+                )}
+              </div>
 
-            <div className="grid grid-cols-2 gap-6">
-              {aboutData?.stats && aboutData.stats.length > 0 ? (
-                aboutData.stats.map((stat, index) => (
-                  <div key={index} className="text-center">
-                    <div className={`text-3xl font-semibold ${index % 2 === 0 ? 'text-blue-600' : 'text-red-600'}`}>
-                      {stat.number}{stat.suffix}
+              <div className="grid grid-cols-2 gap-6">
+                {aboutData?.stats && aboutData.stats.length > 0 && (
+                  aboutData.stats.map((stat, index) => (
+                    <div key={index} className="text-center">
+                      <div className={`text-3xl font-semibold ${index % 2 === 0 ? 'text-blue-600' : 'text-red-600'}`}>
+                        {stat.number}{stat.suffix}
+                      </div>
+                      <p className="text-gray-600">{stat.label}</p>
                     </div>
-                    <p className="text-gray-600">{stat.label}</p>
-                  </div>
-                ))
-              ) : (
-                <>
-                  <div className="text-center">
-                    <div className="text-3xl font-semibold text-blue-600">500+</div>
-                    <p className="text-gray-600">Projects Delivered</p>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-3xl font-semibold text-red-600">15+</div>
-                    <p className="text-gray-600">Years of Experience</p>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-3xl font-semibold text-blue-600">100+</div>
-                    <p className="text-gray-600">Satisfied Clients</p>
-                  </div>
-                  <div className="text-center">
-                    <div className="text-3xl font-semibold text-red-600">50+</div>
-                    <p className="text-gray-600">Skilled Professionals</p>
-                  </div>
-                </>
-              )}
+                  ))
+                )}
+              </div>
             </div>
-          </div>
 
-          <div data-aos="fade-left">
-            <img
-              src={aboutData?.image 
-                ? `https://construction-backend-vm2j.onrender.com/uploads/about/${aboutData.image}?t=${Date.now()}`
-                : "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=800&q=80"
-              }
-              alt={aboutData?.title || "Construction Site"}
-              className="w-full h-96 object-cover rounded-2xl shadow-lg"
-            />
+            {aboutData?.image && (
+              <div data-aos="fade-left">
+                <img
+                  src={`https://construction-backend-vm2j.onrender.com/uploads/about/${aboutData.image}?t=${Date.now()}`}
+                  alt={aboutData?.title || "Construction Site"}
+                  className="w-full h-96 object-cover rounded-2xl shadow-lg"
+                />
+              </div>
+            )}
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
       {/* Vision / Mission / Values - Dynamic */}
       <section className="bg-gradient-to-b from-gray-50 to-gray-100 py-20 px-4">
