@@ -9,7 +9,6 @@ const VideoBanner = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const intervalRef = useRef(null);
-  const videoRefs = useRef([]);
 
   // Updated API URL to match your backend
   const API_URL = "https://construction-backend-vm2j.onrender.com/api/videos";
@@ -34,11 +33,11 @@ const VideoBanner = () => {
         setMedia(data);
       } else {
         setMedia([]);
-        setError("No media found");
+        setError("No banners found");
       }
     } catch (err) {
-      console.error("Error fetching media:", err);
-      setError(err.message || "Failed to fetch media");
+      console.error("Error fetching banners:", err);
+      setError(err.message || "Failed to fetch banners");
     } finally {
       setLoading(false);
     }
@@ -63,18 +62,6 @@ const VideoBanner = () => {
     };
   }, [media.length]);
 
-  // Play current video when index changes
-  useEffect(() => {
-    if (videoRefs.current[currentIndex]) {
-      const currentVideo = videoRefs.current[currentIndex];
-      if (currentVideo && currentVideo.tagName === "VIDEO") {
-        currentVideo.play().catch((err) => {
-          console.log("Video autoplay prevented:", err);
-        });
-      }
-    }
-  }, [currentIndex]);
-
   const goToSlide = (index) => setCurrentIndex(index);
 
   const nextSlide = () => {
@@ -95,49 +82,29 @@ const VideoBanner = () => {
     setModalIndex(null);
   };
 
-  // Helper function to construct media URL
-  const getMediaUrl = (mediaPath) => {
-    if (!mediaPath) return null;
+  // Helper function to construct image URL
+  const getImageUrl = (imagePath) => {
+    if (!imagePath) return null;
     
-    console.log("Processing media path:", mediaPath);
+    console.log("Processing image path:", imagePath);
     
-    // If it's already a full URL, replace production with localhost URL
-    if (mediaPath.startsWith("https://construction-backend-vm2j.onrender.com")) {
-      const correctedUrl = mediaPath.replace("https://construction-backend-vm2j.onrender.com", "https://construction-backend-vm2j.onrender.com");
-      console.log("Corrected production URL:", correctedUrl);
-      return correctedUrl;
+    // If it's already a full URL, use it as is
+    if (imagePath.startsWith("http://") || imagePath.startsWith("https://")) {
+      return imagePath;
     }
     
-    if (mediaPath.startsWith("http://") || mediaPath.startsWith("https://")) {
-      return mediaPath;
-    }
-    
-    // Remove leading slash if present to avoid double slashes
-    const cleanPath = mediaPath.startsWith("/") ? mediaPath.slice(1) : mediaPath;
-    
-    const finalUrl = `https://construction-backend-vm2j.onrender.com/${cleanPath}`;
+    // Construct URL with uploads folder
+    const finalUrl = `https://construction-backend-vm2j.onrender.com/uploads/${imagePath}`;
     console.log("Constructed URL:", finalUrl);
     return finalUrl;
   };
 
-  // Helper function to check if file is an image
-  const isImage = (filename) => {
-    if (!filename) return false;
-    const imageExtensions = [".jpg", ".jpeg", ".png", ".gif", ".bmp", ".webp", ".svg"];
-    return imageExtensions.some((ext) => filename.toLowerCase().endsWith(ext));
-  };
 
-  // Helper function to check if file is a video
-  const isVideo = (filename) => {
-    if (!filename) return false;
-    const videoExtensions = [".mp4", ".webm", ".ogg", ".mov", ".avi", ".mkv"];
-    return videoExtensions.some((ext) => filename.toLowerCase().endsWith(ext));
-  };
 
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen bg-gray-900">
-        <div className="text-white text-2xl">Loading media...</div>
+        <div className="text-white text-2xl">Loading banners...</div>
       </div>
     );
   }
@@ -146,7 +113,7 @@ const VideoBanner = () => {
     return (
       <div className="flex items-center justify-center h-screen bg-gray-900">
         <div className="text-center">
-          <div className="text-orange-600 text-2xl mb-4">Error loading media</div>
+          <div className="text-orange-600 text-2xl mb-4">Error loading banners</div>
           <div className="text-white">{error}</div>
           <button
             onClick={fetchMedia}
@@ -161,7 +128,7 @@ const VideoBanner = () => {
   if (media.length === 0) {
     return (
       <div className="flex items-center justify-center h-screen bg-gray-900">
-        <div className="text-white text-2xl">No media available</div>
+        <div className="text-white text-2xl">No banners available</div>
       </div>
     );
   }
@@ -174,57 +141,25 @@ const VideoBanner = () => {
           className="w-full h-full flex transition-transform duration-500 ease-in-out"
           style={{ transform: `translateX(-${currentIndex * 100}%)` }}>
           {media.map((item, index) => {
-            const mediaSrc = item.videos?.[0] || item.images?.[0]
-              ? getMediaUrl(item.videos?.[0] || item.images?.[0])
-              : null;
-
-            const isMediaImage = mediaSrc ? isImage(mediaSrc) : false;
-            const isMediaVideo = mediaSrc ? isVideo(mediaSrc) : false;
+            const imageSrc = item.images?.[0] ? getImageUrl(item.images[0]) : null;
 
             return (
               <div
                 key={item._id || index}
                 className="relative min-w-full h-full group cursor-pointer"
                 onClick={() => openModal(index)}>
-                {mediaSrc ? (
-                  <>
-                    {isMediaImage && (
-                      <img
-                        src={mediaSrc}
-                        alt={item.title || "Banner image"}
-                        className="w-full h-full object-cover"
-                        onError={(e) => {
-                          console.error(`Image load error for item ${index}:`, mediaSrc, e);
-                          if (e.target.src.includes('localhost:5000')) {
-                            const correctedSrc = e.target.src.replace('https://construction-backend-vm2j.onrender.com', 'https://construction-backend-vm2j.onrender.com');
-                            e.target.src = correctedSrc;
-                          }
-                        }}
-                      />
-                    )}
-
-                    {isMediaVideo && (
-                      <video
-                        ref={(el) => (videoRefs.current[index] = el)}
-                        src={mediaSrc}
-                        className="w-full h-full object-cover"
-                        autoPlay={index === 0}
-                        loop
-                        muted
-                        playsInline
-                        onError={(e) => {
-                          console.error(`Video load error for item ${index}:`, mediaSrc, e);
-                          if (e.target.src.includes('localhost:5000')) {
-                            const correctedSrc = e.target.src.replace('https://construction-backend-vm2j.onrender.com', 'https://construction-backend-vm2j.onrender.com');
-                            e.target.src = correctedSrc;
-                          }
-                        }}
-                      />
-                    )}
-                  </>
+                {imageSrc ? (
+                  <img
+                    src={imageSrc}
+                    alt={item.title || "Banner image"}
+                    className="w-full h-full object-cover"
+                    onError={(e) => {
+                      console.error(`Image load error for item ${index}:`, imageSrc, e);
+                    }}
+                  />
                 ) : (
                   <div className="w-full h-full flex items-center justify-center bg-gray-800">
-                    <p className="text-white text-xl">No media available</p>
+                    <p className="text-white text-xl">No image available</p>
                   </div>
                 )}
 
@@ -314,37 +249,19 @@ const VideoBanner = () => {
 
           <div className="relative w-full max-w-5xl max-h-[90vh] overflow-y-auto">
             <div className="relative shadow-2xl">
-              {(media[modalIndex].videos || media[modalIndex].images || []).map(
-                (mediaItem, idx) => {
-                  const modalMediaSrc = getMediaUrl(mediaItem);
-                  const isModalImage = isImage(modalMediaSrc);
-                  const isModalVideo = isVideo(modalMediaSrc);
+              {(media[modalIndex].images || []).map((imageItem, idx) => {
+                const modalImageSrc = getImageUrl(imageItem);
 
-                  return (
-                    <div key={idx} className="mb-4">
-                      {isModalImage && (
-                        <img
-                          src={modalMediaSrc}
-                          alt={media[modalIndex].title || `Modal image ${idx + 1}`}
-                          className="w-full h-auto max-h-[80vh] object-contain bg-black"
-                        />
-                      )}
-
-                      {isModalVideo && (
-                        <video
-                          src={modalMediaSrc}
-                          className="w-full h-auto max-h-[80vh] object-contain bg-black"
-                          autoPlay
-                          loop
-                          muted
-                          playsInline
-                          controls
-                        />
-                      )}
-                    </div>
-                  );
-                }
-              )}
+                return (
+                  <div key={idx} className="mb-4">
+                    <img
+                      src={modalImageSrc}
+                      alt={media[modalIndex].title || `Modal image ${idx + 1}`}
+                      className="w-full h-auto max-h-[80vh] object-contain bg-black"
+                    />
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>

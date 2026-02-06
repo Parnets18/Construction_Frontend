@@ -119,7 +119,7 @@ const MissionVisionValues = () => {
             {aboutData?.image && (
               <div data-aos="fade-left">
                 <img
-                  src={`https://construction-backend-vm2j.onrender.com/uploads/about/${aboutData.image}?t=${Date.now()}`}
+                  src={`https://construction-backend-vm2j.onrender.com/uploads/${aboutData.image}?t=${Date.now()}`}
                   alt={aboutData?.title || "Construction Site"}
                   className="w-full h-96 object-cover rounded-2xl shadow-lg"
                 />
@@ -152,7 +152,7 @@ const MissionVisionValues = () => {
             >
               {card.images?.length > 0 && (
                 <img
-                  src={`https://construction-backend-vm2j.onrender.com/uploads/vision-mission/${card.images[0]}?t=${Date.now()}`}
+                  src={`https://construction-backend-vm2j.onrender.com/uploads/${card.images[0]}?t=${Date.now()}`}
                   alt={card.title}
                   className="w-full h-52 object-cover rounded-2xl mb-6"
                 />

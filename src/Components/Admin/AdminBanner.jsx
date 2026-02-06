@@ -128,11 +128,11 @@ const BannerAdmin = () => {
               </div>
 
               <div>
-                <label className="block mb-1 font-semibold">Media Files:</label>
+                <label className="block mb-1 font-semibold">Upload Images:</label>
                 <input
                   type="file"
                   multiple
-                  accept="image/*,video/*"
+                  accept="image/*"
                   onChange={(e) => setMediaFiles(Array.from(e.target.files))}
                   className="w-full p-2 border-2 border-blue-300 focus:border-blue-600 rounded-lg"
                 />
@@ -140,7 +140,7 @@ const BannerAdmin = () => {
 
               {mediaFiles.length > 0 && (
                 <div className="text-sm text-gray-600">
-                  Selected files: {mediaFiles.length}
+                  Selected images: {mediaFiles.length}
                 </div>
               )}
 
@@ -176,7 +176,7 @@ const BannerAdmin = () => {
                 <tr>
                   <th className="px-4 py-3 text-left">Title</th>
                   <th className="px-4 py-3 text-left">Description</th>
-                  <th className="px-4 py-3 text-left">Media Files</th>
+                  <th className="px-4 py-3 text-left">Images</th>
                   <th className="px-4 py-3 text-center">Actions</th>
                 </tr>
               </thead>
@@ -187,32 +187,19 @@ const BannerAdmin = () => {
                     <td className="px-4 py-3">{video.description}</td>
                     <td className="px-4 py-3">
                       <div className="flex flex-wrap gap-2">
-                        {/* Display Videos */}
-                        {video.videos &&
-                          video.videos.map((v, i) => (
-                            <video
-                              key={`video-${i}`}
-                              src={`https://construction-backend-vm2j.onrender.com/${v}`}
-                              controls
-                              className="w-20 h-12 object-cover rounded border"
-                            />
-                          ))}
-
                         {/* Display Images */}
-                        {video.images &&
+                        {video.images && video.images.length > 0 ? (
                           video.images.map((img, i) => (
                             <img
                               key={`image-${i}`}
-                              src={`https://construction-backend-vm2j.onrender.com/${img}`}
-                              alt={`Media ${i + 1}`}
+                              src={`https://construction-backend-vm2j.onrender.com/uploads/${img}`}
+                              alt={`Banner ${i + 1}`}
                               className="w-20 h-12 object-cover rounded border"
                             />
-                          ))}
-
-                        {(!video.videos || video.videos.length === 0) &&
-                          (!video.images || video.images.length === 0) && (
-                            <span className="text-gray-400 text-sm">No media files</span>
-                          )}
+                          ))
+                        ) : (
+                          <span className="text-gray-400 text-sm">No images</span>
+                        )}
                       </div>
                     </td>
                     <td className="px-4 py-3 flex justify-center gap-2">

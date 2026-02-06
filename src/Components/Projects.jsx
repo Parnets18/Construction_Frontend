@@ -87,7 +87,7 @@ const Projects = () => {
                   <div className="relative h-64 overflow-hidden">
                     <img
                       src={project.images && project.images.length > 0 
-                        ? `https://construction-backend-vm2j.onrender.com/uploads/projects/${project.images[0]}`
+                        ? `https://construction-backend-vm2j.onrender.com/uploads/${project.images[0]}`
                         : "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=800&q=80"
                       }
                       alt={project.title}

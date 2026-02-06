@@ -221,7 +221,7 @@ const AdminVisionMission = () => {
                         item.images.map((img, i) => (
                           <img
                             key={i}
-                            src={`https://construction-backend-vm2j.onrender.com/uploads/vision-mission/${img}`}
+                            src={`https://construction-backend-vm2j.onrender.com/uploads/${img}`}
                             alt={item.title}
                             className="w-12 h-12 object-cover rounded-lg border"
                           />

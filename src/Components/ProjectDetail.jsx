@@ -136,7 +136,7 @@ const ProjectDetail = () => {
   const currentImage = images.length > 0 
     ? (images[currentImageIndex].startsWith('http') 
         ? images[currentImageIndex] 
-        : `https://construction-backend-vm2j.onrender.com/uploads/projects/${images[currentImageIndex]}`)
+        : `https://construction-backend-vm2j.onrender.com/uploads/${images[currentImageIndex]}`)
     : "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=800&q=80";
 
   return (
@@ -191,7 +191,7 @@ const ProjectDetail = () => {
                         : "hover:ring-2 hover:ring-gray-300"
                     }`}>
                     <img
-                      src={img.startsWith('http') ? img : `https://construction-backend-vm2j.onrender.com/uploads/projects/${img}`}
+                      src={img.startsWith('http') ? img : `https://construction-backend-vm2j.onrender.com/uploads/${img}`}
                       alt={`Thumbnail ${index + 1}`}
                       className="w-20 h-16 object-cover"
                     />

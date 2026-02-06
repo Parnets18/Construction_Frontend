@@ -22,7 +22,7 @@ const TestimonialsCard = () => {
           role: item.designation,
           rating: item.rating,
           avatar: item.profilePic
-            ? `https://construction-backend-vm2j.onrender.com/uploads/testimonials/${item.profilePic}`
+            ? `https://construction-backend-vm2j.onrender.com/uploads/${item.profilePic}`
             : "https://via.placeholder.com/150",
         }));
         setTestimonials(mappedTestimonials);

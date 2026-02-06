@@ -311,7 +311,7 @@ const AdminAboutUs = () => {
                       <td className="px-4 py-4">
                         {item.image ? (
                           <img
-                            src={`https://construction-backend-vm2j.onrender.com/uploads/about/${item.image}`}
+                            src={`https://construction-backend-vm2j.onrender.com/uploads/${item.image}`}
                             alt={item.title}
                             className="w-16 h-16 object-cover rounded-lg border border-gray-300 shadow-sm"
                           />

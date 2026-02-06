@@ -69,7 +69,7 @@ const ConstructionServices = ({ isHomePage }) => {
               >
                 <div className="relative h-64 overflow-hidden">
                   <img
-                    src={`https://construction-backend-vm2j.onrender.com/uploads/services/${service.images[0]}`}
+                    src={`https://construction-backend-vm2j.onrender.com/uploads/${service.images[0]}`}
                     alt={service.title}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                   />

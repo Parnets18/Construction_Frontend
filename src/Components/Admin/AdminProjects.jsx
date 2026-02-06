@@ -22,7 +22,7 @@ const AdminProjects = () => {
   const imageInputRef = useRef(null);
 
   const API_URL = "https://construction-backend-vm2j.onrender.com/api/projects";
-  const UPLOADS_URL = "https://construction-backend-vm2j.onrender.com/uploads/projects/";
+  const UPLOADS_URL = "https://construction-backend-vm2j.onrender.com/uploads/";
 
   // Fetch projects
   const fetchData = async () => {

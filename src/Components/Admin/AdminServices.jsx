@@ -19,7 +19,7 @@ const AdminServices = () => {
   const imageInputRef = useRef(null);
 
   const API_URL = "https://construction-backend-vm2j.onrender.com/api/services";
-  const UPLOADS_URL = "https://construction-backend-vm2j.onrender.com/uploads/services/";
+  const UPLOADS_URL = "https://construction-backend-vm2j.onrender.com/uploads/";
 
   // Fetch services
   const fetchData = async () => {

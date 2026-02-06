@@ -243,7 +243,7 @@ const AdminTestimonial = () => {
                     <td className="p-3">
                       {item.profilePic && (
                         <img
-                          src={`https://construction-backend-vm2j.onrender.com/uploads/testimonials/${item.profilePic}`}
+                          src={`https://construction-backend-vm2j.onrender.com/uploads/${item.profilePic}`}
                           alt={item.name}
                           className="w-12 h-12 rounded-full object-cover"
                         />

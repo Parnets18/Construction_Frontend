@@ -71,7 +71,7 @@ const ServiceDetail = () => {
             <div className="relative rounded-3xl overflow-hidden shadow-xl aspect-[4/3] w-full">
               {/* ✅ Backend Image */}
               <img
-                src={`https://construction-backend-vm2j.onrender.com/uploads/services/${service.images[0]}`}
+                src={`https://construction-backend-vm2j.onrender.com/uploads/${service.images[0]}`}
                 alt={service.title}
                 className="w-full h-full object-cover"
               />
@@ -99,7 +99,7 @@ const ServiceDetail = () => {
                       : "hover:ring-2 hover:ring-gray-300"
                   }`}>
                   <img
-                    src={`https://construction-backend-vm2j.onrender.com/uploads/services/${img}`}
+                    src={`https://construction-backend-vm2j.onrender.com/uploads/${img}`}
                     alt={`Thumbnail ${index + 1}`}
                     className="w-20 h-16 object-cover"
                   />
