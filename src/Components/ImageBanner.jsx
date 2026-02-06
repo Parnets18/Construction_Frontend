@@ -195,7 +195,7 @@ const VideoBanner = () => {
                         className="w-full h-full object-cover"
                         onError={(e) => {
                           console.error(`Image load error for item ${index}:`, mediaSrc, e);
-                          if (e.target.src.includes('construction-backend-vm2j.onrender.com')) {
+                          if (e.target.src.includes('localhost:5000')) {
                             const correctedSrc = e.target.src.replace('https://construction-backend-vm2j.onrender.com', 'https://construction-backend-vm2j.onrender.com');
                             e.target.src = correctedSrc;
                           }
@@ -214,7 +214,7 @@ const VideoBanner = () => {
                         playsInline
                         onError={(e) => {
                           console.error(`Video load error for item ${index}:`, mediaSrc, e);
-                          if (e.target.src.includes('construction-backend-vm2j.onrender.com')) {
+                          if (e.target.src.includes('localhost:5000')) {
                             const correctedSrc = e.target.src.replace('https://construction-backend-vm2j.onrender.com', 'https://construction-backend-vm2j.onrender.com');
                             e.target.src = correctedSrc;
                           }
