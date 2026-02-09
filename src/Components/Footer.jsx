@@ -23,6 +23,9 @@ const Footer = () => {
 
   return (
     <footer className="bg-gray-100 text-gray-800 mt-20 relative overflow-hidden">
+      {/* Top gradient line */}
+      <div className="w-full h-1 bg-gradient-to-r from-blue-600 via-red-600 to-blue-600"></div>
+      
       {/* Background pattern */}
       {/* <div className="absolute inset-0 opacity-5">
         <div className="absolute top-10 left-10 w-40 h-40 rounded-full bg-[#dc2626]"></div>
