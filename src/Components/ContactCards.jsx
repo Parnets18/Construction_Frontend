@@ -48,12 +48,12 @@ const ContactCards = () => {
               <div className="bg-white rounded-xl">
                 <div className="bg-white rounded-lg overflow-hidden">
                   <iframe
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3887.329767654344!2d77.58376!3d12.98484!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae1670c9b44e6d%3A0x11c8c00cb9bb76!2sVyalikaval%2C%20Bengaluru%2C%20Karnataka!5e0!3m2!1sen!2sin!4v1699123456789!5m2!1sen!2sin"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3887.6789!2d77.5928871!3d12.9752487!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae1673e7d0672f%3A0xc62ca5a6e943dfb8!2sSri%20Chamarajendra%20Park%2C%20Nunegundlapalli%2C%20Ambedkar%20Veedhi%2C%20Bengaluru%2C%20Karnataka%20560001!5e0!3m2!1sen!2sin!4v1699123456789!5m2!1sen!2sin"
                     className="w-full h-48 sm:h-56 md:h-64 border-0 transition-all duration-500 group-hover:scale-[1.01]"
                     allowFullScreen=""
                     loading="lazy"
                     referrerPolicy="no-referrer-when-downgrade"
-                    title="Prithvi Developers Location"
+                    title="Construction Company Location"
                   ></iframe>
                 </div>
               </div>
@@ -64,7 +64,7 @@ const ContactCards = () => {
               <button
                 onClick={() => {
                   const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-                  const address = "9/15, 1st Main, Vyalikaval, Bengaluru, Karnataka 560003";
+                  const address = "Sri Chamarajendra Park, Nunegundlapalli, Ambedkar Veedhi, Bengaluru, Karnataka 560001";
                   if (isMobile) {
                     window.open(`https://maps.google.com/maps?daddr=${encodeURIComponent(address)}&dirflg=d`, "_blank");
                   } else {

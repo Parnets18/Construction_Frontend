@@ -64,7 +64,7 @@ const MissionVisionValues = () => {
         <div className="max-w-7xl mx-auto text-center" data-aos="fade-up">
           <h2 className="text-4xl font-semibold mb-6">
             <span className="text-blue-600">Welcome to</span>{" "}
-            <span className="text-red-600">Our Construction Company</span>
+            <span className="text-red-600">Our A.M. Construction Company</span>
           </h2>
 
           <p className="text-lg leading-relaxed max-w-4xl mx-auto mb-6">
@@ -92,17 +92,19 @@ const MissionVisionValues = () => {
                 <span className="text-red-600">{aboutData?.title?.split(' ').slice(1).join(' ') || 'Story'}</span>
               </h2>
 
-              <div className="text-lg leading-relaxed mb-8">
+              <div className="text-base leading-relaxed mb-8 text-gray-700">
                 {aboutData?.description && (
-                  aboutData.description.split('\n\n').map((paragraph, index) => (
-                    <p key={index} className="mb-6">
-                      {paragraph}
-                    </p>
+                  aboutData.description.split('\n').map((paragraph, index) => (
+                    paragraph.trim() && (
+                      <p key={index} className="mb-4 text-justify">
+                        {paragraph}
+                      </p>
+                    )
                   ))
                 )}
               </div>
 
-              <div className="grid grid-cols-2 gap-6">
+              <div className="grid grid-cols-2 gap-6 mt-8">
                 {aboutData?.stats && aboutData.stats.length > 0 && (
                   aboutData.stats.map((stat, index) => (
                     <div key={index} className="text-center">
@@ -121,7 +123,7 @@ const MissionVisionValues = () => {
                 <img
                   src={`https://construction-backend-vm2j.onrender.com/uploads/${aboutData.image}?t=${Date.now()}`}
                   alt={aboutData?.title || "Construction Site"}
-                  className="w-full h-96 object-cover rounded-2xl shadow-lg"
+                  className="w-full h-[500px] object-cover rounded-2xl shadow-lg"
                 />
               </div>
             )}
@@ -170,7 +172,7 @@ const MissionVisionValues = () => {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
               <h2 className="text-4xl font-semibold text-gray-900 mb-4">
-                <span className="text-blue-600">Why Choose</span> <span className="text-blue-600">Our</span> <span className="text-red-600">Construction</span>
+                <span className="text-blue-600">Why Choose</span> <span className="text-blue-600">Our</span> <span className="text-red-600">A.M. Construction</span>
               </h2>
               <p className="text-lg text-gray-600 max-w-3xl mx-auto">
                 We combine expertise, quality materials, and innovative techniques to deliver exceptional construction projects that stand the test of time.

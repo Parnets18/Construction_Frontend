@@ -45,7 +45,7 @@ const ConstructionServices = ({ isHomePage }) => {
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-12" data-aos="fade-up">
             <h2 className="text-3xl md:text-4xl font-bold mb-6">
-              <span className="text-blue-600">Our Construction</span> <span className="text-red-600">Services</span>
+              <span className="text-blue-600">Our A.M. Construction</span> <span className="text-red-600">Services</span>
             </h2>
             <p className="text-gray-600 text-lg leading-relaxed max-w-4xl mx-auto">
               Discover our comprehensive construction and design services tailored to bring your vision to life 

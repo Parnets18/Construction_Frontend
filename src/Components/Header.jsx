@@ -36,31 +36,18 @@ const Header = () => {
         }`}>
           {/* Logo + Name with Animation */}
           <div className="flex items-center space-x-4 group">
-            {/* Animated Logo Circle */}
-            <div className={`relative rounded-full bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 flex items-center justify-center shadow-xl transition-all duration-500 group-hover:scale-110 group-hover:rotate-12 ${
-              isScrolled ? 'w-10 h-10' : 'w-12 h-12'
-            }`}>
-              <span className={`text-white font-bold transition-all duration-300 ${
-                isScrolled ? 'text-lg' : 'text-xl'
-              }`}>C</span>
-              {/* Animated Ring */}
-              <div className="absolute inset-0 rounded-full border-2 border-blue-400/30 animate-pulse"></div>
-              <div className="absolute -inset-1 rounded-full border border-blue-300/20 animate-ping"></div>
-            </div>
+            {/* Logo Image */}
+            <img 
+              src="/images/logo.png" 
+              alt="Construction Logo" 
+              className={`transition-all duration-500 group-hover:scale-110 object-contain ${
+                isScrolled ? 'h-10' : 'h-12'
+              }`}
+            />
             
             <div className="flex flex-col transition-all duration-500">
-              {/* Main Logo Text with Gradient */}
-              <span className={`font-bold bg-gradient-to-r from-gray-800 via-gray-900 to-black bg-clip-text text-transparent tracking-tight transition-all duration-500 ${
-                isScrolled ? 'text-xl' : 'text-2xl'
-              }`}>
-                Construction
-              </span>
-              {/* Animated Subtitle */}
-              <span className={`text-red-600 font-medium tracking-widest uppercase transition-all duration-500 ${
-                isScrolled ? 'text-[10px]' : 'text-xs'
-              }`}>
-                <span className="inline-block animate-pulse">Construction & Developers</span>
-              </span>
+             
+              
             </div>
           </div>
 
@@ -76,10 +63,10 @@ const Header = () => {
                 end
                 onMouseEnter={() => setActiveIndex(index)}
                 className={({ isActive }) =>
-                  `relative px-6 py-3 text-sm font-semibold transition-all duration-500 rounded-full overflow-hidden group ${
+                  `relative px-6 py-3 text-base font-bold transition-all duration-500 rounded-full overflow-hidden group ${
                     isActive
-                      ? "text-gray-800"
-                      : "text-gray-700 hover:text-gray-800"
+                      ? "text-[#1E3A8A]"
+                      : "text-[#1E3A8A] hover:text-[#1E40AF]"
                   }`
                 }>
                 
@@ -152,10 +139,10 @@ const Header = () => {
               end
               onClick={() => setIsMenuOpen(false)}
               className={({ isActive }) =>
-                `block px-6 py-4 text-base font-semibold rounded-2xl transition-all duration-500 transform hover:scale-105 relative overflow-hidden group ${
+                `block px-6 py-4 text-lg font-bold rounded-2xl transition-all duration-500 transform hover:scale-105 relative overflow-hidden group ${
                   isActive
-                    ? "text-gray-800 bg-gradient-to-r from-orange-200 to-red-200 shadow-lg scale-105 border-2 border-orange-300"
-                    : "text-gray-700 hover:text-gray-800 border border-gray-200 hover:border-orange-300"
+                    ? "text-[#1E3A8A] bg-gradient-to-r from-orange-200 to-red-200 shadow-lg scale-105 border-2 border-orange-300"
+                    : "text-[#1E3A8A] hover:text-[#1E40AF] border border-gray-200 hover:border-orange-300"
                 }`
               }
               style={{

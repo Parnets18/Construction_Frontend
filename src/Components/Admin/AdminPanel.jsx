@@ -86,12 +86,15 @@ const AdminPanel = () => {
           sidebarOpen ? "ml-0" : "-ml-64"
         } md:ml-0`}>
         <div className="p-4 border-b border-gray-200">
-          <div className="flex items-center">
-            <div className="w-10 h-10 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold text-lg mr-3">
-              C
-            </div>
-            <div>
+          <div className="flex flex-col items-center">
+            <img 
+              src="/images/logo.png" 
+              alt="Construction Logo" 
+              className="h-10 mb-2 object-contain"
+            />
+            <div className="text-center">
               <h1 className="text-xl font-bold text-black">Admin Panel</h1>
+             
             </div>
           </div>
         </div>

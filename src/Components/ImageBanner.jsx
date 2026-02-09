@@ -146,8 +146,7 @@ const VideoBanner = () => {
             return (
               <div
                 key={item._id || index}
-                className="relative min-w-full h-full group cursor-pointer"
-                onClick={() => openModal(index)}>
+                className="relative min-w-full h-full group">
                 {imageSrc ? (
                   <img
                     src={imageSrc}
@@ -195,7 +194,7 @@ const VideoBanner = () => {
 
         {/* WhatsApp Button */}
         <a
-          href="https://wa.me/919900003410?text=Hello%20I%20am%20interested%20in%20your%20services"
+          href="https://wa.me/919900956633?text=Hello%20I%20am%20interested%20in%20your%20services"
           target="_blank"
           rel="noopener noreferrer"
           className="fixed bottom-12 right-6 bg-emerald-500 text-white p-4 rounded-full shadow-lg hover:bg-emerald-600 transition-all duration-300 z-50">

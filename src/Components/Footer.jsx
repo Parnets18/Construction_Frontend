@@ -8,6 +8,7 @@ import {
   Mail,
   Phone,
   MapPin,
+  MessageCircle,
 } from "lucide-react";
 
 const Footer = () => {
@@ -36,25 +37,18 @@ const Footer = () => {
             className="flex items-center cursor-pointer group"
             onClick={() => handleNavigation('/')}
           >
-            {/* Text-based Logo matching Header */}
+            {/* Logo with Image */}
             <div className="flex items-center space-x-4">
-              {/* Animated Logo Circle */}
-              <div className="relative w-12 h-12 rounded-full bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 flex items-center justify-center shadow-xl transition-all duration-500 group-hover:scale-110 group-hover:rotate-12">
-                <span className="text-white font-bold text-xl">C</span>
-                {/* Animated Ring */}
-                <div className="absolute inset-0 rounded-full border-2 border-blue-400/30 animate-pulse"></div>
-                <div className="absolute -inset-1 rounded-full border border-blue-300/20 animate-ping"></div>
-              </div>
+              {/* Logo Image */}
+              <img 
+                src="/images/logo.png" 
+                alt="Construction Logo" 
+                className="h-12 transition-all duration-500 group-hover:scale-110 object-contain"
+              />
               
               <div className="flex flex-col">
-                {/* Main Logo Text with Gradient */}
-                <span className="text-2xl font-bold bg-gradient-to-r from-gray-800 via-gray-900 to-black bg-clip-text text-transparent tracking-tight">
-                  Construction
-                </span>
-                {/* Animated Subtitle */}
-                <span className="text-xs text-red-600 font-medium tracking-widest uppercase">
-                  <span className="inline-block animate-pulse">Construction & Developers</span>
-                </span>
+                
+                
               </div>
             </div>
           </div>
@@ -155,20 +149,30 @@ const Footer = () => {
           
             <div className="flex items-start">
               <Phone className="h-5 w-5 text-[#dc2626] mr-3 mt-1 flex-shrink-0" />
-              <a 
-                href="tel:+919900003410"
-                className="hover:text-[#dc2626] transition-colors duration-200"
-              >
-                +91 9900003410
-              </a>
+              <div className="flex flex-col space-y-2">
+                <a 
+                  href="tel:+919900956633"
+                  className="hover:text-[#dc2626] transition-colors duration-200"
+                >
+                  +91 9900956633
+                </a>
+                <a 
+                  href="tel:+919845065133"
+                  className="hover:text-[#dc2626] transition-colors duration-200"
+                >
+                  +91 9845065133
+                </a>
+              </div>
             </div>
+
+           
             <div className="flex items-start">
               <Mail className="h-5 w-5 text-[#dc2626] mr-3 mt-1 flex-shrink-0" />
               <a 
                 href="mailto:info@prithvidevelopers.com"
                 className="hover:text-[#dc2626] transition-colors duration-200"
               >
-                info@construction.com
+                amengineeringassociates@hotmail.com
               </a>
             </div>
           
@@ -180,7 +184,7 @@ const Footer = () => {
                 rel="noopener noreferrer"
                 className="hover:text-[#dc2626] transition-colors duration-200"
               >
-                9/15, 1st Main, Vyalikaval, Bengaluru, 560003
+               Sri Chamarajendra Park, Nunegundlapalli, Ambedkar Veedhi, Bengaluru, Karnataka 560001
               </a>
             </div>
           </div>
